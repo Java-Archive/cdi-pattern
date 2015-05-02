@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.rapidpm.commons.cdi.fx.components.tableview.cell.deletebutton.DeleteButtonCellValueFactory?>
+<?import org.rapidpm.commons.cdi.fx.components.tableview.cell.deletebutton.DeleteButtonCellFactory?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import org.rapidpm.commons.cdi.fx.components.tableview.cell.callback.EditingStringCellFactoryCallback?>
+<fx:root type="org.rapidpm.commons.cdi.fx.components.tableview.cell.deletebutton.DeleteButtonTableViewDemoPane"
+         maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1024"
+         xmlns:fx="http://javafx.com/fxml" style="-fx-background-color:#EEEEEE"
+         AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+         AnchorPane.topAnchor="0.0">
+
+    <TableView fx:id="tableViewKunde" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+               tableMenuButtonVisible="true" editable="true" VBox.vgrow="ALWAYS" style="-fx-font-size: 80%">
+        <columns>
+            <TableColumn text="tcKunde">
+                <cellFactory>
+                    <EditingStringCellFactoryCallback/>
+                </cellFactory>
+                <cellValueFactory>
+                    <PropertyValueFactory property="kunde"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="tcKostenstelle">
+                <cellFactory>
+                    <EditingStringCellFactoryCallback/>
+                </cellFactory>
+                <cellValueFactory>
+                    <PropertyValueFactory property="kostenstelle"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="tcEinmalzahlung">
+                <cellFactory>
+                    <EditingStringCellFactoryCallback/>
+                </cellFactory>
+                <cellValueFactory>
+                    <PropertyValueFactory property="einmalzahlung"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="tcRate">
+                <cellFactory>
+                    <EditingStringCellFactoryCallback/>
+                </cellFactory>
+                <cellValueFactory>
+                    <PropertyValueFactory property="rate"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="tcdelete" sortable="false">
+                <cellFactory>
+                    <DeleteButtonCellFactory/>
+                </cellFactory>
+                <cellValueFactory>
+                    <DeleteButtonCellValueFactory/>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+</fx:root>
