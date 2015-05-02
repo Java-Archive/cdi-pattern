@@ -19,35 +19,66 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--for release only-->
-    <!--<parent>-->
-    <!--<groupId>org.sonatype.oss</groupId>-->
-    <!--<artifactId>oss-parent</artifactId>-->
-    <!--<version>7</version>-->
-    <!--</parent>-->
-
     <groupId>org.rapidpm.cdipattern</groupId>
     <artifactId>parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-
     <packaging>pom</packaging>
-    <name>parent</name>
+
     <description>Parent POM for the RapidPM-CDI Pattern-Projects</description>
 
     <modules>
         <module>modules</module>
     </modules>
+
     <properties>
-
         <rapidpm.version>1.0.0-SNAPSHOT</rapidpm.version>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.symbolic.name>parent</project.symbolic.name>
-
         <jboss-javaee-all-6.0.version>3.0.2.Final</jboss-javaee-all-6.0.version>
         <jboss-as-version>7.1.1.Final</jboss-as-version>
         <arquillian-glassfish-version>1.0.0.CR4</arquillian-glassfish-version>
     </properties>
+
+
+
+    <inceptionYear>2013</inceptionYear>
+    <organization>
+        <name>RapidPM</name>
+        <url>http://www.rapidpm.org</url>
+    </organization>
+    <scm>
+        <url>https://github.com/RapidPM/cdi-pattern</url>
+        <connection>scm:git:https://github.com/RapidPM/cdi-pattern.git</connection>
+        <developerConnection>scm:git:https://github.com/RapidPM/cdi-pattern.git</developerConnection>
+    </scm>
+    <developers>
+        <developer>
+            <name>Sven Ruppert</name>
+            <email>sven.ruppert@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/RapidPM/cdi-pattern/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>TravisCI</system>
+        <url>https://travis-ci.org/RapidPM/cdi-pattern/</url>
+    </ciManagement>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+
 
     <dependencyManagement>
         <dependencies>
@@ -921,49 +952,5 @@
 
     </profiles>
 
-    <inceptionYear>2013</inceptionYear>
-    <organization>
-        <name>RapidPM</name>
-        <url>http://www.rapidpm.org</url>
-    </organization>
-    <scm>
-        <url>https://bitbucket.org/rapidpm/rapidpm-modules</url>
-        <connection>scm:git:https://github.com/RapidPM/cdi-pattern.git</connection>
-        <developerConnection>scm:git:https://github.com/RapidPM/cdi-pattern.git</developerConnection>
-        <!--<tag>master</tag>-->
-        <!--<tag>rapidpm-parent-2.0</tag>-->
-    </scm>
-    <developers>
-        <developer>
-            <name>Sven Ruppert</name>
-            <email>sven.ruppert@gmail.com</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-    </developers>
-    <issueManagement>
-        <system>Github</system>
-        <url>https://github.com/RapidPM/cdi-pattern/issues</url>
-    </issueManagement>
-    <ciManagement>
-        <system>TravisCI</system>
-        <url>http://bamboo.rapidpm.org/</url>
-        <!--<notifiers>-->
-        <!--<notifier></notifier>-->
-        <!--</notifiers>-->
-    </ciManagement>
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-            <comments>A business-friendly OSS license</comments>
-        </license>
-    </licenses>
-    <!--<reporting>-->
-    <!--<plugins>-->
-    <!--<plugin></plugin>-->
-    <!--</plugins>-->
-    <!--</reporting>-->
+
 </project>
