@@ -17,7 +17,6 @@
 package org.rapidpm.commons.cdi.fx.components.tableview.cell;
 
 
-import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableRow;
@@ -39,19 +38,15 @@ import java.util.function.Consumer;
 public abstract class CDIButtonCell<T> extends TableCell<T, Boolean> {
 
   public Button cellButton;
-
-  public abstract String getButtonLabelText();
-
+   @Inject @CDILogger public Logger logger;
+   @Inject public ManagedInstanceCreator instanceCreator;
   private List<Consumer<T>> cellActionList = new ArrayList<>();
-  private List<Consumer<TableRow<T>>> rowActionList = new ArrayList<>();
 
 //  private List<CDIButtonCellAction<T>> cellActionList = new ArrayList<>();
 //  private List<CDIButtonRowAction<T>> rowActionList = new ArrayList<>();
-
-  public @Inject @CDILogger Logger logger;
-  public @Inject ManagedInstanceCreator instanceCreator;
-
-  public CDIButtonCell() {}
+  private List<Consumer<TableRow<T>>> rowActionList = new ArrayList<>();
+  public CDIButtonCell() {
+  }
 
   @PostConstruct
   public void init() {
@@ -62,7 +57,7 @@ public abstract class CDIButtonCell<T> extends TableCell<T, Boolean> {
 
     cellButton.setOnAction(t -> {
 
-      rowActionList.forEach(c->{
+      rowActionList.forEach(c -> {
         if (logger.isDebugEnabled()) {
           logger.debug("execute rowActionList buttonCellAction-> " + c);
         }
@@ -70,7 +65,7 @@ public abstract class CDIButtonCell<T> extends TableCell<T, Boolean> {
         c.accept(tableRow);
       });
 
-      cellActionList.forEach(c->{
+      cellActionList.forEach(c -> {
         if (logger.isDebugEnabled()) {
           logger.debug("execute cellActionList buttonCellAction-> " + c);
         }
@@ -80,6 +75,8 @@ public abstract class CDIButtonCell<T> extends TableCell<T, Boolean> {
       });
     });
   }
+
+  public abstract String getButtonLabelText();
 
   @Override
   protected void updateItem(Boolean t, boolean empty) {

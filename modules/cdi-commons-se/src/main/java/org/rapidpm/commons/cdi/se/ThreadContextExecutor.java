@@ -16,14 +16,12 @@
 
 package org.rapidpm.commons.cdi.se;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import org.jboss.weld.environment.se.contexts.ThreadScoped;
 import org.rapidpm.commons.cdi.ManagedInstanceCreator;
-import org.rapidpm.commons.cdi.se.CDICommonsSE;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: Sven Ruppert
@@ -33,33 +31,34 @@ import org.rapidpm.commons.cdi.se.CDICommonsSE;
 
 @ThreadScoped
 @CDICommonsSE
-public class ThreadContextExecutor implements Runnable{
+public class ThreadContextExecutor implements Runnable {
 
-    private @Inject ManagedInstanceCreator managedInstanceCreator;
+  @Inject private ManagedInstanceCreator managedInstanceCreator;
 
-    private List<CDITransactionStep> steps = new ArrayList<>();
+  private List<CDITransactionStep> steps = new ArrayList<>();
 
-    public void addStep(final CDITransactionStep step){
-        steps.add(step);
+  public void addStep(final CDITransactionStep step) {
+    steps.add(step);
+  }
+
+
+  @Override
+  public void run() {
+    for (final CDITransactionStep stepNoCDI : steps) {
+      final CDITransactionStep step = managedInstanceCreator.activateCDI(stepNoCDI);
+      step.doIt();
+    }
+  }
+
+  @ThreadScoped
+  public abstract static  class CDITransactionStep {
+
+    protected CDITransactionStep() {
+
     }
 
-
-    @Override public void run() {
-        for (final CDITransactionStep stepNoCDI : steps) {
-            final CDITransactionStep step = managedInstanceCreator.activateCDI(stepNoCDI);
-            step.doIt();
-        }
-    }
-
-    @ThreadScoped
-    public static abstract class CDITransactionStep {
-
-        protected CDITransactionStep() {
-
-        }
-
-        public abstract void doIt();
-    }
+    public abstract void doIt();
+  }
 
 
 }

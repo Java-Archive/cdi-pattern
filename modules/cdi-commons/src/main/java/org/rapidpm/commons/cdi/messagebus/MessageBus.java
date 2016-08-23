@@ -22,8 +22,6 @@ import com.google.common.eventbus.Subscribe;
 import org.rapidpm.commons.cdi.logger.CDILogger;
 import org.rapidpm.commons.cdi.logger.Logger;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.Serializable;
@@ -44,7 +42,7 @@ public class MessageBus implements Serializable {
   //damit nicht mehr die Callback referenzen gehalten werden muessen
   private ConcurrentMap<String, MessageBusCallback> callbacks = Maps.newConcurrentMap();
 
-  private @Inject @CDILogger Logger logger;
+   @Inject @CDILogger private Logger logger;
 
   public <T> void registerCallBack(final String callbackUID, Consumer<Message<T>> m) {
     if (logger.isDebugEnabled()) {
@@ -56,7 +54,7 @@ public class MessageBus implements Serializable {
     eventBus.register(callback);
   }
 
-//  public void destroyCallBack(MessageBusCallback callBack) {
+  //  public void destroyCallBack(MessageBusCallback callBack) {
 //    if (logger.isDebugEnabled()) {
 //      logger.debug("destroyCallBack " + callBack);
 //    }
@@ -75,15 +73,12 @@ public class MessageBus implements Serializable {
   }
 
 
-
-
   public void post(Message message) {
     if (logger.isDebugEnabled()) {
       logger.debug("post " + message);
     }
     eventBus.post(message);
   }
-
 
 
   private class MessageBusCallback<T> {
@@ -95,10 +90,9 @@ public class MessageBus implements Serializable {
       c.accept(m);
     }
 
-    public void setCallBackAction(Consumer<Message<T>> m){
+    public void setCallBackAction(Consumer<Message<T>> m) {
       this.c = m;
     }
-
 
 
   }

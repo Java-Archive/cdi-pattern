@@ -11,6 +11,6 @@ import org.rapidpm.commons.cdi.CDINotMapped;
 @CDINotMapped
 public interface CDIContext {
 
-    public boolean isMockedModusActive();
+  public boolean isMockedModusActive();
 
 }

@@ -24,29 +24,27 @@ import java.util.concurrent.Semaphore;
  * Time: 11:50
  */
 public class JavaFXTestSingleton {
-    private static JavaFXTestSingleton ourInstance = new JavaFXTestSingleton();
+  private static JavaFXTestSingleton ourInstance = new JavaFXTestSingleton();
+  private Semaphore semaphore = new Semaphore(1);
+  private Class<?> clazz;
 
-    public static JavaFXTestSingleton getInstance() {
-        return ourInstance;
-    }
+  private JavaFXTestSingleton() {
 
-    private JavaFXTestSingleton() {
+  }
 
-    }
+  public static JavaFXTestSingleton getInstance() {
+    return ourInstance;
+  }
 
-    private Semaphore semaphore = new Semaphore(1);
+  public Class<?> getClazz() {
+    return clazz;
+  }
 
-    private Class<?> clazz;
+  public void setClazz(Class<?> clazz) {
+    this.clazz = clazz;
+  }
 
-    public Class<?> getClazz() {
-        return clazz;
-    }
-
-    public void setClazz(Class<?> clazz) {
-        this.clazz = clazz;
-    }
-
-    public Semaphore getSemaphore() {
-        return semaphore;
-    }
+  public Semaphore getSemaphore() {
+    return semaphore;
+  }
 }

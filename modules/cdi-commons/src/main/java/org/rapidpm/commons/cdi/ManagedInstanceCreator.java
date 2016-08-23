@@ -36,9 +36,8 @@ import java.util.Set;
  */
 public class ManagedInstanceCreator {
 
-  private @Inject @CDILogger Logger logger;
-
   @Inject BeanManager beanManager;
+   @Inject @CDILogger private Logger logger;
 
   public <T> T getManagedInstance(final Class<T> beanType, final AnnotationLiteral annotationLiteral) {
 
@@ -46,7 +45,8 @@ public class ManagedInstanceCreator {
 
     final Set<Bean<?>> beanSet;
     if (annotationLiteral == null) {
-      beanSet = beanManager.getBeans(beanType, new AnnotationLiteral<Default>(){});
+      beanSet = beanManager.getBeans(beanType, new AnnotationLiteral<Default>() {
+      });
     } else {
       beanSet = beanManager.getBeans(beanType, annotationLiteral);
     }

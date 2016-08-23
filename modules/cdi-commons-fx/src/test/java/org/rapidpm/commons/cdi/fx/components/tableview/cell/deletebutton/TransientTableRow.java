@@ -10,10 +10,10 @@ import java.io.Serializable;
  */
 public class TransientTableRow implements Serializable {
 
-    private StringProperty kunde;
-    private StringProperty kostenstelle;
-    private StringProperty einmalzahlung;
-    private StringProperty rate;
-    private BooleanProperty delete;
+  private StringProperty kunde;
+  private StringProperty kostenstelle;
+  private StringProperty einmalzahlung;
+  private StringProperty rate;
+  private BooleanProperty delete;
 
 }

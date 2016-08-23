@@ -14,13 +14,14 @@ import javax.enterprise.inject.Instance;
  */
 public abstract class CDIBaseButtonCellFactory<RT> implements Callback<TableColumn<RT, ?>, TableCell<RT, ?>> {
 
-    public CDIBaseButtonCellFactory() {
-        CDIContainerSingleton.getInstance().activateCDI(this);
-    }
+  public CDIBaseButtonCellFactory() {
+    CDIContainerSingleton.getInstance().activateCDI(this);
+  }
 
-    @Override public TableCell<RT, ?> call(TableColumn<RT, ?> rtTableColumn) {
-        return (TableCell<RT, ?>) getButtonCellInstance().get();
-    }
+  @Override
+  public TableCell<RT, ?> call(TableColumn<RT, ?> rtTableColumn) {
+    return (TableCell<RT, ?>) getButtonCellInstance().get();
+  }
 
-    public abstract Instance getButtonCellInstance();
+  public abstract Instance getButtonCellInstance();
 }

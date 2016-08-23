@@ -10,12 +10,12 @@ import javax.inject.Inject;
  */
 public class KeyMapper {
 
-    private @Inject
-    @CDIPropertyRegistryService
-    PropertyRegistryService propertyRegistryService;
+  private @Inject
+  @CDIPropertyRegistryService
+  PropertyRegistryService propertyRegistryService;
 
 
-    public String map(String delete) {
-        return null;
-    }
+  public String map(String delete) {
+    return null;
+  }
 }

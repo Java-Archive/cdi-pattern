@@ -16,19 +16,17 @@
 
 package org.rapidpm.commons.cdi.format;
 
-import java.lang.annotation.Annotation;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Set;
+import org.rapidpm.commons.cdi.locale.CDILocale;
+import org.rapidpm.commons.cdi.registry.property.CDIPropertyRegistryService;
+import org.rapidpm.commons.cdi.registry.property.PropertyRegistryService;
 
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
-
-import org.rapidpm.commons.cdi.locale.CDILocale;
-import org.rapidpm.commons.cdi.registry.property.CDIPropertyRegistryService;
-import org.rapidpm.commons.cdi.registry.property.PropertyRegistryService;
+import java.lang.annotation.Annotation;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * User: Sven Ruppert
@@ -38,59 +36,53 @@ import org.rapidpm.commons.cdi.registry.property.PropertyRegistryService;
 
 public class SimpleDateFormatterProducer {
 
-    public SimpleDateFormat createDefault(InjectionPoint injectionPoint) {
-        //default res key -> company wide yyyyMMdd
-        //return new SimpleDateFormat("dd.MM.yyyy");
-        final String ressource = propertyRegistryService.getRessourceForKey("date.yyyyMMdd");
-        return new SimpleDateFormat(ressource, defaultLocale);
-    }
 
-    private
-    @Inject
-    @CDIPropertyRegistryService
-    PropertyRegistryService propertyRegistryService;
+  @Inject
+  @CDIPropertyRegistryService
+  private
+  PropertyRegistryService propertyRegistryService;
 
-    private
-    @Inject
-    @CDILocale
-    Locale defaultLocale;
+  @Inject
+  @CDILocale
+  private
+  Locale defaultLocale;
 
+  /**
+   * es fehlt noch die auflösung des Locale
+   *
+   * @param ip
+   *
+   * @return
+   */
+  @Produces
+  @CDISimpleDateFormatter
+  public SimpleDateFormat produceSimpleDateFormatter(InjectionPoint ip) {
 
-    /**
-     * es fehlt noch die auflösung des Locale
-     *
-     * @param ip
-     * @return
-     */
-    @Produces
-    @CDISimpleDateFormatter
-    public SimpleDateFormat produceSimpleDateFormatter(InjectionPoint ip) {
+    final Set<Annotation> qualifiers = ip.getQualifiers();
 
-        final Set<Annotation> qualifiers = ip.getQualifiers();
+    //Version mit Transferobject
+    final SimpleDateFormat sdf = qualifiers.stream()
+        .filter((e) -> e instanceof CDISimpleDateFormatter)
+        .map((qualifier) -> {
+          HolderClass holder = new HolderClass();
+          holder.ressourcenKey = ((CDISimpleDateFormatter) qualifier).value();
+          holder.mappedKey = propertyRegistryService.getRessourceForKey(holder.ressourcenKey);
+          return holder;
+        })
+        .findFirst()
+        .map((h) -> {
+          if (h.mappedKey.equals("###" + h.ressourcenKey + "###")) {
+            return createDefault(ip); //Fallback
+          } else {
+            return new SimpleDateFormat(h.mappedKey, defaultLocale);
+          }
+        })
+        .get();
 
-       //Version mit Transferobject
-        final SimpleDateFormat sdf = qualifiers.stream()
-                .filter((e) -> e instanceof CDISimpleDateFormatter)
-                .map((qualifier) -> {
-                    HolderClass holder = new HolderClass();
-                    holder.ressourcenKey =  ((CDISimpleDateFormatter) qualifier).value();
-                    holder.mappedKey = propertyRegistryService.getRessourceForKey(holder.ressourcenKey);
-                    return holder;
-                })
-                .findFirst()
-                .map((h) -> {
-                    if( h.mappedKey.equals("###" + h.ressourcenKey + "###" ) ){
-                        return createDefault(ip); //Fallback
-                    } else{
-                        return new SimpleDateFormat(h.mappedKey, defaultLocale);
-                    }
-                })
-                .get();
-
-        return sdf;
+    return sdf;
 
 
-        //Version ohne Transferobject
+    //Version ohne Transferobject
 //        final SimpleDateFormat sdf = qualifiers.stream()
 //                .filter((e) -> e instanceof CDISimpleDateFormatter)
 //                .map((qualifier) -> {
@@ -108,8 +100,6 @@ public class SimpleDateFormatterProducer {
 //                    }
 //                })
 //                .get();
-
-
 
 
 //        for (final Annotation qualifier : qualifiers) {
@@ -155,12 +145,19 @@ public class SimpleDateFormatterProducer {
 //        } else {
 //            return createDefault(injectionPoint);
 //        }
-    }
+  }
 
-    private static class HolderClass {
-        public String ressourcenKey;
-        public String mappedKey;
-    }
+  public SimpleDateFormat createDefault(InjectionPoint injectionPoint) {
+    //default res key -> company wide yyyyMMdd
+    //return new SimpleDateFormat("dd.MM.yyyy");
+    final String ressource = propertyRegistryService.getRessourceForKey("date.yyyyMMdd");
+    return new SimpleDateFormat(ressource, defaultLocale);
+  }
+
+  private static class HolderClass {
+    public String ressourcenKey;
+    public String mappedKey;
+  }
 
 
 }

@@ -21,7 +21,7 @@
 
     <parent>
         <groupId>org.rapidpm.cdipattern</groupId>
-        <artifactId>parent</artifactId>
+        <artifactId>cdi-pattern</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 

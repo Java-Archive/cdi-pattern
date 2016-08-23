@@ -16,23 +16,18 @@
 
 package org.rapidpm.commons.cdi.fx;
 
+import javafx.collections.ObservableMap;
+import javafx.fxml.FXMLLoader;
+import javafx.util.BuilderFactory;
+import javafx.util.Callback;
+import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
-
-import javax.enterprise.context.spi.CreationalContext;
-import javax.enterprise.inject.spi.AnnotatedType;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.InjectionTarget;
-
-import javafx.collections.ObservableMap;
-import javafx.fxml.FXMLLoader;
-import javafx.util.BuilderFactory;
-import javafx.util.Callback;
-import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
 
 /**
  * User: Sven Ruppert
@@ -42,9 +37,61 @@ import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
 public class CDIFXMLLoader extends FXMLLoader {
 
 
-    private final CDIContainerSingleton cdi = CDIContainerSingleton.getInstance();
+  private final CDIContainerSingleton cdi = CDIContainerSingleton.getInstance();
 
-    public <T> T activateCDI(T t) {
+  public CDIFXMLLoader() {
+    super();
+//        activateCDI(this);
+  }
+
+  public CDIFXMLLoader(URL url) {
+    super(url);
+//        activateCDI(this);
+  }
+
+  public CDIFXMLLoader(URL url, ResourceBundle resourceBundle) {
+    super(url, resourceBundle);
+//        activateCDI(this);
+  }
+
+  public CDIFXMLLoader(URL url, ResourceBundle resourceBundle, BuilderFactory builderFactory) {
+    super(url, resourceBundle, builderFactory);
+//        activateCDI(this);
+  }
+
+  public CDIFXMLLoader(URL url, ResourceBundle resourceBundle, BuilderFactory builderFactory, Callback<Class<?>, Object> classObjectCallback) {
+    super(url, resourceBundle, builderFactory, classObjectCallback);
+//        activateCDI(this);
+  }
+
+  public CDIFXMLLoader(Charset charset) {
+    super(charset);
+//        activateCDI(this);
+  }
+
+  public CDIFXMLLoader(URL url, ResourceBundle resourceBundle, BuilderFactory builderFactory, Callback<Class<?>, Object> classObjectCallback, Charset charset) {
+    super(url, resourceBundle, builderFactory, classObjectCallback, charset);
+//        activateCDI(this);
+  }
+
+  public CDIFXMLLoader(URL url, ResourceBundle resourceBundle, BuilderFactory builderFactory, Callback<Class<?>, Object> classObjectCallback, Charset charset, LinkedList<FXMLLoader> fxmlLoaders) {
+    super(url, resourceBundle, builderFactory, classObjectCallback, charset, fxmlLoaders);
+//        activateCDI(this);
+  }
+
+  @Override
+  public ObservableMap<String, Object> getNamespace() {
+    return super.getNamespace();
+  }
+
+  @Override
+  public <T> T getRoot() {
+    final T root = super.getRoot();
+//        return root;
+    return activateCDI(root);
+  }
+
+  public <T> T activateCDI(T t) {
 //        final BeanManager beanManager = cdi.getBeanManager();
 //        final Class aClass = t.getClass();
 //        final AnnotatedType annotationType = beanManager.createAnnotatedType(aClass);
@@ -52,73 +99,26 @@ public class CDIFXMLLoader extends FXMLLoader {
 //        final CreationalContext creationalContext = beanManager.createCreationalContext(null);
 //        injectionTarget.inject(t, creationalContext);
 //        injectionTarget.postConstruct(t);
-        return cdi.activateCDI(t);
-    }
+    return cdi.activateCDI(t);
+  }
 
-    public CDIFXMLLoader() {
-        super();
-//        activateCDI(this);
-    }
+  @Override
+  public void setRoot(Object o) {
+    super.setRoot(o);
+  }
 
-    public CDIFXMLLoader(URL url) {
-        super(url);
-//        activateCDI(this);
-    }
-
-    public CDIFXMLLoader(URL url, ResourceBundle resourceBundle) {
-        super(url, resourceBundle);
-//        activateCDI(this);
-    }
-
-    public CDIFXMLLoader(URL url, ResourceBundle resourceBundle, BuilderFactory builderFactory) {
-        super(url, resourceBundle, builderFactory);
-//        activateCDI(this);
-    }
-
-    public CDIFXMLLoader(URL url, ResourceBundle resourceBundle, BuilderFactory builderFactory, Callback<Class<?>, Object> classObjectCallback) {
-        super(url, resourceBundle, builderFactory, classObjectCallback);
-//        activateCDI(this);
-    }
-
-    public CDIFXMLLoader(Charset charset) {
-        super(charset);
-//        activateCDI(this);
-    }
-
-    public CDIFXMLLoader(URL url, ResourceBundle resourceBundle, BuilderFactory builderFactory, Callback<Class<?>, Object> classObjectCallback, Charset charset) {
-        super(url, resourceBundle, builderFactory, classObjectCallback, charset);
-//        activateCDI(this);
-    }
-
-    public CDIFXMLLoader(URL url, ResourceBundle resourceBundle, BuilderFactory builderFactory, Callback<Class<?>, Object> classObjectCallback, Charset charset, LinkedList<FXMLLoader> fxmlLoaders) {
-        super(url, resourceBundle, builderFactory, classObjectCallback, charset, fxmlLoaders);
-//        activateCDI(this);
-    }
-
-    @Override public ObservableMap<String, Object> getNamespace() {
-        return super.getNamespace();
-    }
-
-    @Override public <T> T getRoot() {
-        final T root = super.getRoot();
-//        return root;
-        return activateCDI(root);
-    }
-
-    @Override public void setRoot(Object o) {
-        super.setRoot(o);
-    }
-
-    @Override public <T> T getController() {
-        final T controller = super.getController();
+  @Override
+  public <T> T getController() {
+    final T controller = super.getController();
 //         return controller;
-        return activateCDI(controller);
-    }
+    return activateCDI(controller);
+  }
 
 
-    @Override public void setController(Object o) {
-        super.setController(o);
-    }
+  @Override
+  public void setController(Object o) {
+    super.setController(o);
+  }
 
 //    @Override public ResourceBundle getResources() {
 //        return super.getResources();
@@ -128,44 +128,52 @@ public class CDIFXMLLoader extends FXMLLoader {
 //        super.setResources(resourceBundle);
 //    }
 
-    @Override public BuilderFactory getBuilderFactory() {
-        final BuilderFactory builderFactory = super.getBuilderFactory();
-        return activateCDI(builderFactory);
-    }
+  @Override
+  public BuilderFactory getBuilderFactory() {
+    final BuilderFactory builderFactory = super.getBuilderFactory();
+    return activateCDI(builderFactory);
+  }
 
-    @Override public void setBuilderFactory(BuilderFactory builderFactory) {
-        super.setBuilderFactory(builderFactory);
-    }
+  @Override
+  public void setBuilderFactory(BuilderFactory builderFactory) {
+    super.setBuilderFactory(builderFactory);
+  }
 
-    @Override public Callback<Class<?>, Object> getControllerFactory() {
-        final Callback<Class<?>, Object> controllerFactory = super.getControllerFactory();
-        return activateCDI(controllerFactory);
-    }
+  @Override
+  public Callback<Class<?>, Object> getControllerFactory() {
+    final Callback<Class<?>, Object> controllerFactory = super.getControllerFactory();
+    return activateCDI(controllerFactory);
+  }
 
-    @Override public void setControllerFactory(Callback<Class<?>, Object> classObjectCallback) {
-        super.setControllerFactory(classObjectCallback);
-    }
-
-
-    @Override public ClassLoader getClassLoader() {
-        return super.getClassLoader();
-    }
-
-    @Override public void setClassLoader(ClassLoader classLoader) {
-        super.setClassLoader(classLoader);
-    }
+  @Override
+  public void setControllerFactory(Callback<Class<?>, Object> classObjectCallback) {
+    super.setControllerFactory(classObjectCallback);
+  }
 
 
-    @Override public Object load() throws IOException {
-        final Object load = super.load();
+  @Override
+  public ClassLoader getClassLoader() {
+    return super.getClassLoader();
+  }
+
+  @Override
+  public void setClassLoader(ClassLoader classLoader) {
+    super.setClassLoader(classLoader);
+  }
+
+
+  @Override
+  public Object load() throws IOException {
+    final Object load = super.load();
 //        return activateCDI(load);
-        return load;
-    }
+    return load;
+  }
 
-    @Override public Object load(InputStream inputStream) throws IOException {
-        final Object load = super.load(inputStream);
-        return activateCDI(load);
+  @Override
+  public Object load(InputStream inputStream) throws IOException {
+    final Object load = super.load(inputStream);
+    return activateCDI(load);
 //        return load;
-    }
+  }
 
 }

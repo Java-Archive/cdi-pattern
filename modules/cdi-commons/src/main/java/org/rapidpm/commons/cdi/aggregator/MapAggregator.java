@@ -28,31 +28,27 @@ import java.util.*;
  * Time: 11:35
  *
  * ersetzen durch Streams Collector groupingBy
- *
  */
 @Deprecated
 public abstract class MapAggregator<T, K> {
 
-    private @Inject @CDILogger Logger logger;
+  @Inject @CDILogger private  Logger logger;
 
+  public Map<K, List<T>> aggregate(final Collection<T> dataCollection) {
+    final Map<K, List<T>> result = new HashMap<>();
 
-    public abstract K getKeyElement(T t);
+    dataCollection.forEach((dataObject) -> {
+      final K key = getKeyElement(dataObject);
+      if (result.containsKey(key)) {
+        if (logger.isDebugEnabled()) {
+          logger.debug("key allready available -> " + key);
+        }
+      } else {
+        result.put(key, new ArrayList<T>());
+      }
+      result.get(key).add(dataObject);
 
-    public Map<K, List<T>> aggregate(final Collection<T> dataCollection) {
-        final Map<K, List<T>> result = new HashMap<>();
-
-        dataCollection.forEach((dataObject)->{
-            final K key = getKeyElement(dataObject);
-            if (result.containsKey(key)) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("key allready available -> " + key);
-                }
-            } else {
-                result.put(key, new ArrayList<T>());
-            }
-            result.get(key).add(dataObject);
-
-        });
+    });
 
 //        for (final T dataObject : dataCollection) {
 //            final K key = getKeyElement(dataObject);
@@ -66,7 +62,9 @@ public abstract class MapAggregator<T, K> {
 //            result.get(key).add(dataObject);
 //        }
 
-        return result;
-    }
+    return result;
+  }
+
+  public abstract K getKeyElement(T t);
 
 }

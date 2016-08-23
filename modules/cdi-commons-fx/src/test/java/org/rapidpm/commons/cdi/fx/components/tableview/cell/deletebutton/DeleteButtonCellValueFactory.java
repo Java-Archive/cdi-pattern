@@ -11,12 +11,12 @@ import javafx.util.Callback;
  * Time: 14:15
  */
 public class DeleteButtonCellValueFactory
-        implements Callback<TableColumn.CellDataFeatures<TransientTableRow, Boolean>,ObservableValue<Boolean>> {
+    implements Callback<TableColumn.CellDataFeatures<TransientTableRow, Boolean>, ObservableValue<Boolean>> {
 
 
-    @Override
-    public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<TransientTableRow, Boolean> p) {
-        final TransientTableRow value = p.getValue();
-        return new SimpleBooleanProperty(value != null);
-    }
+  @Override
+  public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<TransientTableRow, Boolean> p) {
+    final TransientTableRow value = p.getValue();
+    return new SimpleBooleanProperty(value != null);
+  }
 }

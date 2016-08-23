@@ -22,12 +22,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
-
 import org.rapidpm.commons.cdi.format.CDISimpleDateFormatter;
 import org.rapidpm.commons.cdi.logger.CDILogger;
-import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
 import org.rapidpm.commons.cdi.logger.Logger;
-
+import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
@@ -41,60 +39,59 @@ import java.util.Date;
 public class EditingDateCellFactoryCallback<S> implements Callback<TableColumn<S, ? extends Date>, TableCell<S, ? extends Date>> {
 
 
-    public EditingDateCellFactoryCallback() {
-        CDIContainerSingleton.getInstance().activateCDI(this);
+  @Inject Instance<EditingCell> editingCellInstance;
+
+  public EditingDateCellFactoryCallback() {
+    CDIContainerSingleton.getInstance().activateCDI(this);
+  }
+
+  @Override
+  public TableCell<S, ? extends Date> call(TableColumn<S, ? extends Date> tTableColumn) {
+    return editingCellInstance.get();
+  }
+
+  public static class EditingCell<S> extends AbstractEditingCell<S, Date> {
+
+    @Inject @CDISimpleDateFormatter(value = "default.yyyyMMdd")
+    SimpleDateFormat sdf;   //TODO von aussen setzen
+     @Inject @CDILogger private Logger logger;
+    //        @Inject Instance<DatePicker> datePickerInstance;
+//        private  @Inject DatePicker datePicker;
+    private DatePicker datePicker = new DatePicker();
+
+    public EditingCell() {
+    }
+
+    @PostConstruct
+    public void init() {
+      if (getItem() == null) {
+
+      } else {
+        setText(sdf.format(getItem()));
+      }
     }
 
     @Override
-    public TableCell<S, ? extends Date> call(TableColumn<S, ? extends Date> tTableColumn) {
-        return editingCellInstance.get();
+    public void commitEdit(Date date) {
+      super.commitEdit(date);
+      if (logger.isDebugEnabled()) {
+        logger.debug("commitEdit-> date = " + date);
+      }
     }
 
-    @Inject Instance<EditingCell> editingCellInstance;
+    @Override
+    public void cancelEdit() {
+      super.cancelEdit();
+      final Date item = getItem();
+      final String format = sdf.format(item);
+      if (logger.isDebugEnabled()) {
+        logger.debug("cancelEdit->format = " + format);
+      }
+      setText(format);
+      setGraphic(null);
+    }
 
-    public static class EditingCell<S> extends AbstractEditingCell<S,Date> {
-
-        private @Inject  @CDILogger  Logger logger;
-        @Inject @CDISimpleDateFormatter(value = "default.yyyyMMdd")
-        SimpleDateFormat sdf;   //TODO von aussen setzen
-
-        //        @Inject Instance<DatePicker> datePickerInstance;
-//        private  @Inject DatePicker datePicker;
-        private DatePicker datePicker = new DatePicker();
-
-        public EditingCell() {
-        }
-
-        @PostConstruct
-        public void init() {
-            if (getItem() == null) {
-
-            } else {
-                setText(sdf.format(getItem()));
-            }
-        }
-
-        @Override
-        public void commitEdit(Date date) {
-            super.commitEdit(date);
-            if (logger.isDebugEnabled()) {
-                logger.debug("commitEdit-> date = " + date);
-            }
-        }
-
-        @Override
-        public void cancelEdit() {
-            super.cancelEdit();
-            final Date item = getItem();
-            final String format = sdf.format(item);
-            if (logger.isDebugEnabled()) {
-                logger.debug("cancelEdit->format = " + format);
-            }
-            setText(format);
-            setGraphic(null);
-        }
-
-        public void createValueField() {
+    public void createValueField() {
 //            if (logger.isDebugEnabled()) {
 //                logger.debug("createValueField");
 //            }
@@ -114,30 +111,29 @@ public class EditingDateCellFactoryCallback<S> implements Callback<TableColumn<S
 //                    setItem(datePicker.getSelectedDate());
 //                }
 //            });
-        }
+    }
 
+    @Override
+    public Node getGraphicNode() {
+      return datePicker;
+    }
 
-        @Override
-        public void updateItemIsEditing() {
+    @Override
+    public void startEditIsNotEmptyLastActions() {
+      // nothing to do here
+    }
+
+    @Override
+    public void updateItemIsEditing() {
 //            if (datePicker != null) {
 //                datePicker.getTextField().setText(getString());
 //            }
-        }
-
-        @Override
-        public String getStringIfItemNotNull() {
-            return sdf.format(getItem());
-        }
-
-        @Override
-        public void startEditIsNotEmptyLastActions() {
-            // nothing to do here
-        }
-
-        @Override
-        public Node getGraphicNode() {
-            return datePicker;
-        }
     }
+
+    @Override
+    public String getStringIfItemNotNull() {
+      return sdf.format(getItem());
+    }
+  }
 }
 

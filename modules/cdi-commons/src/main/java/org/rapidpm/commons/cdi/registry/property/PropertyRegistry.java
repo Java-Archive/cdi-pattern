@@ -23,9 +23,9 @@ package org.rapidpm.commons.cdi.registry.property;
  */
 public interface PropertyRegistry {
 
-    public void loadProperties();
+  public void loadProperties();
 
-    public String getProperty(final String key);
+  public String getProperty(final String key);
 
-    public boolean hasProperty(final String key);
+  public boolean hasProperty(final String key);
 }

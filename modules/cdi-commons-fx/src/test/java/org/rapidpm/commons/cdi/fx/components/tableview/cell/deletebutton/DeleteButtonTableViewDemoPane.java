@@ -7,8 +7,8 @@ import org.rapidpm.commons.cdi.fx.components.CDIBaseAnchorPane;
  */
 public class DeleteButtonTableViewDemoPane extends CDIBaseAnchorPane<DeleteButtonTableViewDemoPane, DeleteButtonTableViewDemoPaneController> {
 
-    @Override
-    public Class<DeleteButtonTableViewDemoPane> getPaneClass() {
-        return DeleteButtonTableViewDemoPane.class;
-    }
+  @Override
+  public Class<DeleteButtonTableViewDemoPane> getPaneClass() {
+    return DeleteButtonTableViewDemoPane.class;
+  }
 }

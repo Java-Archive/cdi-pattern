@@ -14,17 +14,17 @@ import javax.inject.Inject;
  * Time: 14:15
  */
 public class DeleteButtonCellFactory
-        implements Callback<TableColumn<TransientTableRow, ?>, TableCell<TransientTableRow, ?>> {
+    implements Callback<TableColumn<TransientTableRow, ?>, TableCell<TransientTableRow, ?>> {
 
-    @Inject Instance<DeleteButtonCell>  deleteButtonCellInstance;
+  @Inject Instance<DeleteButtonCell> deleteButtonCellInstance;
 
-    public DeleteButtonCellFactory() {
-        CDIContainerSingleton.getInstance().activateCDI(this);
-    }
+  public DeleteButtonCellFactory() {
+    CDIContainerSingleton.getInstance().activateCDI(this);
+  }
 
-    @Override
-    public TableCell<TransientTableRow, ?> call(TableColumn<TransientTableRow, ?> column) {
+  @Override
+  public TableCell<TransientTableRow, ?> call(TableColumn<TransientTableRow, ?> column) {
 
-        return deleteButtonCellInstance.get();
-    }
+    return deleteButtonCellInstance.get();
+  }
 }

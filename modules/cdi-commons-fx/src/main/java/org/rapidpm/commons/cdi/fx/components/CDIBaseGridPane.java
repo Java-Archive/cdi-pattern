@@ -16,11 +16,6 @@
 
 package org.rapidpm.commons.cdi.fx.components;
 
-import java.io.IOException;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -28,6 +23,10 @@ import org.rapidpm.commons.cdi.CDINotMapped;
 import org.rapidpm.commons.cdi.fx.CDIJavaFxBaseController;
 import org.rapidpm.commons.cdi.fx.FXMLLoaderSingleton;
 import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import java.io.IOException;
 
 /**
  * User: Sven Ruppert
@@ -37,7 +36,7 @@ import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
 @CDINotMapped
 public abstract class CDIBaseGridPane<T, C extends CDIJavaFxBaseController> extends GridPane implements CDIBaseFxComponent<T> {
 
-  public @Inject FXMLLoaderSingleton fxmlLoaderSingleton;
+   @Inject public FXMLLoaderSingleton fxmlLoaderSingleton;
   public C controller;
 
   protected CDIBaseGridPane() {

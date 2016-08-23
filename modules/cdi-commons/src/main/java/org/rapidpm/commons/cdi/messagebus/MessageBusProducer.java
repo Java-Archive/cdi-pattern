@@ -28,11 +28,12 @@ import javax.inject.Inject;
  */
 public class MessageBusProducer {
 
-    private @Inject ManagedInstanceCreator managedInstanceCreator;
+  @Inject private ManagedInstanceCreator managedInstanceCreator;
 
-    @Produces @CDIMessageBus
-    public MessageBus create() {
-        return managedInstanceCreator.activateCDI(new MessageBus());
-    }
+  @Produces
+  @CDIMessageBus
+  public MessageBus create() {
+    return managedInstanceCreator.activateCDI(new MessageBus());
+  }
 
 }

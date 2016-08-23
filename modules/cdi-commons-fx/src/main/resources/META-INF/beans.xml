@@ -18,8 +18,8 @@
        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
 		http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
        bean-discovery-mode="all">
-    <interceptors>
-        <class>org.rapidpm.commons.cdi.async.AsyncInterceptor</class>
-        <class>org.rapidpm.commons.cdi.contextresolver.MockedInterceptor</class>
-    </interceptors>
+  <interceptors>
+    <class>org.rapidpm.commons.cdi.async.AsyncInterceptor</class>
+    <class>org.rapidpm.commons.cdi.contextresolver.MockedInterceptor</class>
+  </interceptors>
 </beans>

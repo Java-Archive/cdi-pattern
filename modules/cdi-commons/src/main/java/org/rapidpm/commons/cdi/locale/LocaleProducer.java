@@ -16,9 +16,8 @@
 
 package org.rapidpm.commons.cdi.locale;
 
-import java.util.Locale;
-
 import javax.enterprise.inject.Produces;
+import java.util.Locale;
 
 /**
  * User: Sven Ruppert
@@ -28,10 +27,10 @@ import javax.enterprise.inject.Produces;
 public class LocaleProducer {
 
 
-    @Produces
-    @CDILocale
-    public Locale createDefaultLocale() {
-        return new Locale("de", "DE");
-    }
+  @Produces
+  @CDILocale
+  public Locale createDefaultLocale() {
+    return new Locale("de", "DE");
+  }
 
 }

@@ -25,20 +25,20 @@ import java.lang.reflect.Proxy;
  */
 public class DynamicObjectAdapterFactory {
 
-    @Inject Instance<CDIInvocationHandler> cdiInvocationHandlerInstance;
+  @Inject Instance<CDIInvocationHandler> cdiInvocationHandlerInstance;
 
-    public  <T> T adapt(final Object adaptee,final Class<T> target,final Object adapter) {
+  public <T> T adapt(final Object adaptee, final Class<T> target, final Object adapter) {
 
-        final CDIInvocationHandler invocationHandler = cdiInvocationHandlerInstance
-                .get()
-                .adapter(adapter)
-                .adaptee(adaptee);
+    final CDIInvocationHandler invocationHandler = cdiInvocationHandlerInstance
+        .get()
+        .adapter(adapter)
+        .adaptee(adaptee);
 
-        return (T) Proxy.newProxyInstance(
-                target.getClassLoader(),
-                new Class[]{target},
-                invocationHandler
-                );
-    }
+    return (T) Proxy.newProxyInstance(
+        target.getClassLoader(),
+        new Class[]{target},
+        invocationHandler
+    );
+  }
 
 }

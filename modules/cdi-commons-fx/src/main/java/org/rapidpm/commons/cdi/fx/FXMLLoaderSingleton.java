@@ -16,18 +16,16 @@
 
 package org.rapidpm.commons.cdi.fx;
 
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import javafx.fxml.FXMLLoader;
+import org.rapidpm.commons.cdi.logger.CDILogger;
+import org.rapidpm.commons.cdi.logger.Logger;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import javafx.fxml.FXMLLoader;
-import javafx.util.Callback;
-import org.rapidpm.commons.cdi.logger.CDILogger;
-import org.rapidpm.commons.cdi.logger.Logger;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User: Sven Ruppert
@@ -37,46 +35,45 @@ import org.rapidpm.commons.cdi.logger.Logger;
 @Singleton
 public class FXMLLoaderSingleton {
 
-    private @Inject @CDILogger Logger logger;
-    private @Inject Instance<CDIJavaFxBaseController> instance;
+  private final ClassLoader cachingClassLoader = new FXClassLoader(FXMLLoader.getDefaultClassLoader());
+  private final Map<Class, FXMLLoader> class2LoaderMap = new HashMap<Class, FXMLLoader>();
+   @Inject @CDILogger private Logger logger;
+   @Inject private Instance<CDIJavaFxBaseController> instance;
 
-    private final ClassLoader cachingClassLoader = new FXClassLoader(FXMLLoader.getDefaultClassLoader());
-    private final Map<Class, FXMLLoader> class2LoaderMap = new HashMap<Class, FXMLLoader>();
+  private FXMLLoaderSingleton() {
+  }
 
-    public FXMLLoader getFXMLLoader(Class clazz) {
-        final Map<Class, FXMLLoader> loaderMap = class2LoaderMap;
-        final String name = clazz.getName();
-        if (loaderMap.containsKey(clazz)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("fx loader fuer diese klasse schon in der map " + name);
-            }
-        } else {
-            final String fxmlFileName = clazz.getSimpleName() + ".fxml";
-            if (logger.isDebugEnabled()) {
-                logger.debug("fxmlFileName -> " + fxmlFileName);
-            }
-            final URL resource = clazz.getResource(fxmlFileName);
+  public FXMLLoader getFXMLLoader(Class clazz) {
+    final Map<Class, FXMLLoader> loaderMap = class2LoaderMap;
+    final String name = clazz.getName();
+    if (loaderMap.containsKey(clazz)) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("fx loader fuer diese klasse schon in der map " + name);
+      }
+    } else {
+      final String fxmlFileName = clazz.getSimpleName() + ".fxml";
+      if (logger.isDebugEnabled()) {
+        logger.debug("fxmlFileName -> " + fxmlFileName);
+      }
+      final URL resource = clazz.getResource(fxmlFileName);
 //            FXMLLoader loader = new CDIFXMLLoader(resource);
-            FXMLLoader loader = new FXMLLoader(resource);
-            loader.setClassLoader(cachingClassLoader);
-            loader.setControllerFactory(param -> {
-                final Class<JavaFXBaseController> p = (Class<JavaFXBaseController>) param;
-                final JavaFXBaseController controller = instance.select(p).get();
-                controller.initInstance(); //trigger async call
-                return controller;
-            });
-            try {  //verpacken in Dynamic Proxy
-                final Class<?> aClass = Class.forName(clazz.getName() + "Controller");
-                final CDIJavaFxBaseController call = (CDIJavaFxBaseController) loader.getControllerFactory().call(aClass);
-                loader.setController(call);
-            } catch (ClassNotFoundException e) {
-                logger.error(e);
-            }
-            loaderMap.put(clazz, loader);
-        }
-        return loaderMap.get(clazz);
+      FXMLLoader loader = new FXMLLoader(resource);
+      loader.setClassLoader(cachingClassLoader);
+      loader.setControllerFactory(param -> {
+        final Class<JavaFXBaseController> p = (Class<JavaFXBaseController>) param;
+        final JavaFXBaseController controller = instance.select(p).get();
+        controller.initInstance(); //trigger async call
+        return controller;
+      });
+      try {  //verpacken in Dynamic Proxy
+        final Class<?> aClass = Class.forName(clazz.getName() + "Controller");
+        final CDIJavaFxBaseController call = (CDIJavaFxBaseController) loader.getControllerFactory().call(aClass);
+        loader.setController(call);
+      } catch (ClassNotFoundException e) {
+        logger.error(e);
+      }
+      loaderMap.put(clazz, loader);
     }
-
-    private FXMLLoaderSingleton() {
-    }
+    return loaderMap.get(clazz);
+  }
 }

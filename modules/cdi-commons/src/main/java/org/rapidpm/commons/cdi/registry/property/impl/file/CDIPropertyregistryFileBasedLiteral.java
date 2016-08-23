@@ -25,8 +25,8 @@ import java.io.Serializable;
  * Time: 14:35
  */
 public class CDIPropertyregistryFileBasedLiteral
-        extends AnnotationLiteral<CDIPropertyRegistryFileBased>
-        implements CDIPropertyRegistryFileBased, Serializable{
+    extends AnnotationLiteral<CDIPropertyRegistryFileBased>
+    implements CDIPropertyRegistryFileBased, Serializable {
 
 
 }

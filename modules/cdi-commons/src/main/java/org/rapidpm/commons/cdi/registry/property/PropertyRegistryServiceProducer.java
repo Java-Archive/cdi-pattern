@@ -16,17 +16,17 @@
 
 package org.rapidpm.commons.cdi.registry.property;
 
+import org.rapidpm.commons.cdi.CDICommons;
+import org.rapidpm.commons.cdi.ManagedInstanceCreator;
+import org.rapidpm.commons.cdi.contextresolver.ContextResolver;
+import org.rapidpm.commons.cdi.logger.CDILogger;
+import org.rapidpm.commons.cdi.logger.Logger;
+import org.rapidpm.commons.cdi.registry.property.impl.file.CDIPropertyRegistryFileBased;
+
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.util.AnnotationLiteral;
 import javax.inject.Inject;
-
-import org.rapidpm.commons.cdi.contextresolver.ContextResolver;
-import org.rapidpm.commons.cdi.registry.property.impl.file.CDIPropertyRegistryFileBased;
-import org.rapidpm.commons.cdi.CDICommons;
-import org.rapidpm.commons.cdi.ManagedInstanceCreator;
-import org.rapidpm.commons.cdi.logger.CDILogger;
-import org.rapidpm.commons.cdi.logger.Logger;
 
 /**
  * User: Sven Ruppert
@@ -35,36 +35,31 @@ import org.rapidpm.commons.cdi.logger.Logger;
  */
 public class PropertyRegistryServiceProducer {
 
-    private @Inject @CDILogger Logger logger;
-    private @Inject @CDIPropertyRegistryFileBased PropertyRegistryService defaultRegistry;
-    private @Inject BeanManager beanManager;
-    private @Inject ManagedInstanceCreator creator;
+  @Inject @CDILogger private Logger logger;
+  @Inject @CDIPropertyRegistryFileBased private PropertyRegistryService defaultRegistry;
+  @Inject private BeanManager beanManager;
+  @Inject private ManagedInstanceCreator creator;
 
-    @Produces @CDIPropertyRegistryService
-    public PropertyRegistryService create(@CDICommons ContextResolver contextResolver) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("used ContextResolver - " + contextResolver.getClass().getName());
-        }
-        final Class<PropertyRegistryService> beanType = PropertyRegistryService.class;
-        final AnnotationLiteral annotationLiteral = contextResolver.resolveContext(beanType);
-        final PropertyRegistryService propertyRegistryService = creator.getManagedInstance(beanType, annotationLiteral);
-        //return Default
-        if (logger.isInfoEnabled()) {
-            logger.info("PropertyRegistryService - Using default filebased implementation ");
-        }
-
-        if(propertyRegistryService == null){
-            return defaultRegistry;
-        } else{
-            return propertyRegistryService;
-        }
+  @Produces
+  @CDIPropertyRegistryService
+  public PropertyRegistryService create(@CDICommons ContextResolver contextResolver) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("used ContextResolver - " + contextResolver.getClass().getName());
+    }
+    final Class<PropertyRegistryService> beanType = PropertyRegistryService.class;
+    final AnnotationLiteral annotationLiteral = contextResolver.resolveContext(beanType);
+    final PropertyRegistryService propertyRegistryService = creator.getManagedInstance(beanType, annotationLiteral);
+    //return Default
+    if (logger.isInfoEnabled()) {
+      logger.info("PropertyRegistryService - Using default filebased implementation ");
     }
 
-
-
-
-
-
+    if (propertyRegistryService == null) {
+      return defaultRegistry;
+    } else {
+      return propertyRegistryService;
+    }
+  }
 
 
 }

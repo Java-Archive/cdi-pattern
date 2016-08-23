@@ -16,13 +16,13 @@
 
 package org.rapidpm.commons.cdi.registry.property.impl.file;
 
+import org.rapidpm.commons.cdi.logger.CDILogger;
+import org.rapidpm.commons.cdi.logger.Logger;
+import org.rapidpm.commons.cdi.registry.property.PropertyRegistryService;
+
 import javax.enterprise.inject.New;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-
-import org.rapidpm.commons.cdi.logger.CDILogger;
-import org.rapidpm.commons.cdi.registry.property.PropertyRegistryService;
-import org.rapidpm.commons.cdi.logger.Logger;
 
 /**
  * User: Sven Ruppert
@@ -31,10 +31,11 @@ import org.rapidpm.commons.cdi.logger.Logger;
  */
 public class FileBasedPropertyRegistryServiceProducer {
 
-    @Inject @CDILogger Logger logger;
+  @Inject @CDILogger Logger logger;
 
-    @Produces @CDIPropertyRegistryFileBased
-    private PropertyRegistryService createFileBased(@New FileBasedPropertyRegistryService service) {
-        return service;
-    }
+  @Produces
+  @CDIPropertyRegistryFileBased
+  private PropertyRegistryService createFileBased(@New FileBasedPropertyRegistryService service) {
+    return service;
+  }
 }

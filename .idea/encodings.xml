@@ -6,5 +6,6 @@
     <file url="file://$PROJECT_DIR$/modules/cdi-commons" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/cdi-commons-fx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/cdi-commons-se" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

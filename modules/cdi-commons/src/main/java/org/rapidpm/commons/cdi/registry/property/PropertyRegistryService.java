@@ -16,11 +16,10 @@
 
 package org.rapidpm.commons.cdi.registry.property;
 
-import javax.inject.Inject;
-
 import org.rapidpm.commons.cdi.logger.CDILogger;
 import org.rapidpm.commons.cdi.logger.Logger;
 
+import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
@@ -35,19 +34,19 @@ import java.io.Serializable;
  */
 public abstract class PropertyRegistryService implements Serializable {
 
-    private @Inject @CDILogger Logger logger;
+   @Inject @CDILogger private Logger logger;
 
-    public abstract String getRessourceForKey(String ressourceKey);
-
-    private String mappClassRessourceKey(final Class clazz, final String relativeKey) {
-        return clazz.getName() + "." + relativeKey;
+  public String getClassMappedRessource(final Class clazz, final String relativeKey) {
+    final String mappedKey = mappClassRessourceKey(clazz, relativeKey);
+    if (logger.isDebugEnabled()) {
+      logger.debug("mappedKey - " + mappedKey);
     }
+    return getRessourceForKey(mappedKey);
+  }
 
-    public String getClassMappedRessource(final Class clazz, final String relativeKey) {
-        final String mappedKey = mappClassRessourceKey(clazz, relativeKey);
-        if (logger.isDebugEnabled()) {
-            logger.debug("mappedKey - " + mappedKey);
-        }
-        return getRessourceForKey(mappedKey);
-    }
+  private String mappClassRessourceKey(final Class clazz, final String relativeKey) {
+    return clazz.getName() + "." + relativeKey;
+  }
+
+  public abstract String getRessourceForKey(String ressourceKey);
 }

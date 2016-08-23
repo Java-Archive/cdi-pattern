@@ -25,14 +25,14 @@ import org.rapidpm.commons.cdi.fx.components.CDIBaseGridPane;
  */
 public class LoginPane extends CDIBaseGridPane<LoginPane, LoginPaneController> {
 
-    public LoginPane() {
+  public LoginPane() {
 
-    }
+  }
 
-    @Override
-    public Class<LoginPane> getPaneClass() {
-        return LoginPane.class;
-    }
+  @Override
+  public Class<LoginPane> getPaneClass() {
+    return LoginPane.class;
+  }
 
 
 }

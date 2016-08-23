@@ -16,19 +16,18 @@
 
 package org.rapidpm.commons.cdi.async;
 
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import org.rapidpm.commons.cdi.logger.CDILogger;
+import org.rapidpm.commons.cdi.logger.Logger;
 
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
-
-import org.rapidpm.commons.cdi.logger.CDILogger;
-import org.rapidpm.commons.cdi.logger.Logger;
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * User: Sven Ruppert
@@ -39,34 +38,34 @@ import org.rapidpm.commons.cdi.logger.Logger;
 @Interceptor
 @Async
 public class AsyncInterceptor implements Serializable {
-    private static final long serialVersionUID = 7938266823530974338L;
+  private static final long serialVersionUID = 7938266823530974338L;
 
 
-//    private static final Logger logger = Logger.getLogger(AsyncInterceptor.class);
-    @Inject @CDILogger Logger logger;
+  //    private static final Logger logger = Logger.getLogger(AsyncInterceptor.class);
+  @Inject @CDILogger Logger logger;
 
-    @AroundInvoke
-    public Object executeAsynchronous(InvocationContext invocationContext) throws Exception {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+  @AroundInvoke
+  public Object executeAsynchronous(InvocationContext invocationContext) throws Exception {
+    ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        try {
-            Future result = executor.submit(new AsyncExecutor(invocationContext));
+    try {
+      Future result = executor.submit(new AsyncExecutor(invocationContext));
 
-            final Method method = invocationContext.getMethod();
-            Class returnType = method.getReturnType();
-            final boolean isVoid = "void".equalsIgnoreCase(returnType.getName());
-            final boolean assignableFrom = Void.class.isAssignableFrom(returnType);
-            if (isVoid || assignableFrom) {
-                return null;
-            } else {
-                final FutureUnwrapper futureUnwrapper = new FutureUnwrapper(result);
-                if (logger.isDebugEnabled()) {
-                    logger.debug("futureUnwrapper - " + futureUnwrapper);
-                }
-                return futureUnwrapper;
-            }
-        } finally {
-            executor.shutdown(); //won't stop immediately
+      final Method method = invocationContext.getMethod();
+      Class returnType = method.getReturnType();
+      final boolean isVoid = "void".equalsIgnoreCase(returnType.getName());
+      final boolean assignableFrom = Void.class.isAssignableFrom(returnType);
+      if (isVoid || assignableFrom) {
+        return null;
+      } else {
+        final FutureUnwrapper futureUnwrapper = new FutureUnwrapper(result);
+        if (logger.isDebugEnabled()) {
+          logger.debug("futureUnwrapper - " + futureUnwrapper);
         }
+        return futureUnwrapper;
+      }
+    } finally {
+      executor.shutdown(); //won't stop immediately
     }
+  }
 }

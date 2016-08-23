@@ -22,8 +22,8 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.util.Callback;
 import org.rapidpm.commons.cdi.logger.CDILogger;
-import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
 import org.rapidpm.commons.cdi.logger.Logger;
+import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -34,79 +34,78 @@ import java.util.List;
  * Time: 13:55
  */
 public abstract class AbstractEditingComboBoxCellFactoryCallBack<T extends AbstractEditingComboBoxCellFactoryCallBack.GenericComboBoxCell>
-        implements Callback<TableColumn<T, ?>, TableCell<T, ?>> {
+    implements Callback<TableColumn<T, ?>, TableCell<T, ?>> {
 
 
-    protected AbstractEditingComboBoxCellFactoryCallBack() {
-        CDIContainerSingleton.getInstance().activateCDI(this);
-    }
+  protected AbstractEditingComboBoxCellFactoryCallBack() {
+    CDIContainerSingleton.getInstance().activateCDI(this);
+  }
+
+  @Override
+  public TableCell<T, ?> call(TableColumn<T, ?> filteredTableDataRowTableColumn) {
+    return getComboBoxCellInstance();
+  }
+
+  public abstract T getComboBoxCellInstance();
+
+  public abstract static  class GenericComboBoxCell<S, VT> extends ComboBoxTableCell<S, VT> {
+
+     @Inject @CDILogger private Logger logger;
+    private boolean readOnlyView = false;
 
     @Override
-    public TableCell<T, ?> call(TableColumn<T, ?> filteredTableDataRowTableColumn) {
-        return getComboBoxCellInstance();
+    public void updateItem(VT o, boolean b) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("ComboBoxTableCell->updateItem " + o);
+      }
+      super.updateItem(o, b);
+      if (o == null) {
+        //
+      } else {
+        final TableRow tableRow = getTableRow();
+        if (tableRow == null) {
+          if (logger.isDebugEnabled()) {
+            logger.debug("getTableRow(); == null");
+          }
+        } else {
+          final S row = (S) tableRow.getItem();
+          getItems().clear();
+          if (disableComboBox(row)) {
+            this.setDisable(true);
+          } else if (readOnlyView) {
+            this.setDisable(true);
+          } else {
+
+            final List<VT> comboBoxValues = createComboBoxValues(row);
+            getItems().addAll(comboBoxValues);
+
+            this.setDisable(false);
+          }
+          workOnRowItself(row);
+        }
+      }
     }
 
-    public abstract T getComboBoxCellInstance();
+    /**
+     * logic to disable the combobox, for example if the value ist null or ...
+     *
+     * @return
+     */
+    public abstract boolean disableComboBox(final S row);
 
-    public static abstract class GenericComboBoxCell<S,VT> extends ComboBoxTableCell<S, VT> {
+    public abstract List<VT> createComboBoxValues(final S row);
 
-        private @Inject @CDILogger Logger logger;
-        private boolean readOnlyView = false;
+    public abstract void workOnRowItself(final S row);
 
-        @Override
-        public void updateItem(VT o, boolean b) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("ComboBoxTableCell->updateItem " + o);
-            }
-            super.updateItem(o, b);
-            if (o == null) {
-                //
-            } else {
-                final TableRow tableRow = getTableRow();
-                if (tableRow == null) {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("getTableRow(); == null");
-                    }
-                } else {
-                    final S row = (S) tableRow.getItem();
-                    getItems().clear();
-                    if (disableComboBox(row)) {
-                        this.setDisable(true);
-                    } else if (readOnlyView) {
-                        this.setDisable(true);
-                    } else {
+    protected abstract GenericComboBoxCell<S, VT> getComboBoxCellRef();
 
-                        final List<VT> comboBoxValues = createComboBoxValues(row);
-                        getItems().addAll(comboBoxValues);
-
-                        this.setDisable(false);
-                    }
-                    workOnRowItself(row);
-                }
-            }
-        }
-
-        protected abstract GenericComboBoxCell<S,VT> getComboBoxCellRef();
-
-        /**
-         * logic to disable the combobox, for example if the value ist null or ...
-         *
-         * @return
-         */
-        public abstract boolean disableComboBox(final S row);
-
-        public abstract List<VT> createComboBoxValues(final S row);
-
-        public abstract void workOnRowItself(final S row);
-
-
-        public boolean isReadOnlyView() {
-            return readOnlyView;
-        }
-
-        public void setReadOnlyView(boolean readOnlyView) {
-            this.readOnlyView = readOnlyView;
-        }
+    public boolean isReadOnlyView() {
+      return readOnlyView;
     }
+
+    public void setReadOnlyView(boolean readOnlyView) {
+      this.readOnlyView = readOnlyView;
+    }
+  }
 
 }

@@ -16,10 +16,10 @@
 
 package org.rapidpm.commons.cdi.registry.property.impl.file.registries;
 
+import org.rapidpm.commons.cdi.registry.property.impl.file.CDIPropertyRegistryFileBased;
+
 import javax.enterprise.inject.New;
 import javax.enterprise.inject.Produces;
-
-import org.rapidpm.commons.cdi.registry.property.impl.file.CDIPropertyRegistryFileBased;
 
 /**
  * User: Sven Ruppert
@@ -29,31 +29,31 @@ import org.rapidpm.commons.cdi.registry.property.impl.file.CDIPropertyRegistryFi
 public class FileBasedRegistriesProducer {
 
 
-    @Produces
-    @CDIPropertyRegistryFileBased
-    public CompanyFilePropertyRegistry createCompayPropertyRegistry(@New CompanyFilePropertyRegistry service) {
-        service.loadProperties();
-        return service;
-    }
+  @Produces
+  @CDIPropertyRegistryFileBased
+  public CompanyFilePropertyRegistry createCompayPropertyRegistry(@New CompanyFilePropertyRegistry service) {
+    service.loadProperties();
+    return service;
+  }
 
-    @Produces
-    @CDIPropertyRegistryFileBased
-    public ApplicationFilePropertyRegistry createApplicationPropertyRegistry(@New ApplicationFilePropertyRegistry service) {
-        service.loadProperties();
-        return service;
-    }
+  @Produces
+  @CDIPropertyRegistryFileBased
+  public ApplicationFilePropertyRegistry createApplicationPropertyRegistry(@New ApplicationFilePropertyRegistry service) {
+    service.loadProperties();
+    return service;
+  }
 
-    @Produces
-    @CDIPropertyRegistryFileBased
-    public ModulFilePropertyRegistry createModulPropertyRegistry(@New ModulFilePropertyRegistry service) {
-        service.loadProperties();
-        return service;
-    }
+  @Produces
+  @CDIPropertyRegistryFileBased
+  public ModulFilePropertyRegistry createModulPropertyRegistry(@New ModulFilePropertyRegistry service) {
+    service.loadProperties();
+    return service;
+  }
 
-    @Produces
-    @CDIPropertyRegistryFileBased
-    public ClassFilePropertyRegistry createClassPropertyRegistry(@New ClassFilePropertyRegistry service) {
-        service.loadProperties();
-        return service;
-    }
+  @Produces
+  @CDIPropertyRegistryFileBased
+  public ClassFilePropertyRegistry createClassPropertyRegistry(@New ClassFilePropertyRegistry service) {
+    service.loadProperties();
+    return service;
+  }
 }

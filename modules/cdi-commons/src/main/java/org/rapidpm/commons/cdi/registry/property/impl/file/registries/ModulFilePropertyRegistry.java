@@ -16,17 +16,16 @@
 
 package org.rapidpm.commons.cdi.registry.property.impl.file.registries;
 
+import org.rapidpm.commons.cdi.locale.CDILocale;
+import org.rapidpm.commons.cdi.logger.CDILogger;
+import org.rapidpm.commons.cdi.logger.Logger;
+import org.rapidpm.commons.cdi.registry.property.impl.ModulPropertyRegistry;
+
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-
-import javax.inject.Inject;
-
-import org.rapidpm.commons.cdi.locale.CDILocale;
-import org.rapidpm.commons.cdi.logger.CDILogger;
-import org.rapidpm.commons.cdi.registry.property.impl.ModulPropertyRegistry;
-import org.rapidpm.commons.cdi.logger.Logger;
 
 
 /**
@@ -36,33 +35,33 @@ import org.rapidpm.commons.cdi.logger.Logger;
  */
 public class ModulFilePropertyRegistry implements ModulPropertyRegistry, Serializable {
 
-    private ResourceBundle messages;
-    private @Inject @CDILocale Locale defaultLocale;
+  private ResourceBundle messages;
+   @Inject @CDILocale private Locale defaultLocale;
 
-    private @Inject @CDILogger Logger logger;
+   @Inject @CDILogger private Logger logger;
 
-    @Override
-    public void loadProperties() {
-        try {
-            messages = ResourceBundle.getBundle("i18n/module", defaultLocale);
-        } catch (MissingResourceException e) {
-            logger.warn("ressource not found loading dummy");
-            messages = ResourceBundle.getBundle("i18n/module_dummy", defaultLocale);
-        }
+  @Override
+  public void loadProperties() {
+    try {
+      messages = ResourceBundle.getBundle("i18n/module", defaultLocale);
+    } catch (MissingResourceException e) {
+      logger.warn("ressource not found loading dummy");
+      messages = ResourceBundle.getBundle("i18n/module_dummy", defaultLocale);
     }
+  }
 
-    @Override
-    public String getProperty(String key) {
-        final boolean contains = messages.containsKey(key);
-        if (contains) {
-            return messages.getString(key);
-        } else {
-            return "###" + key + "###";
-        }
+  @Override
+  public String getProperty(String key) {
+    final boolean contains = messages.containsKey(key);
+    if (contains) {
+      return messages.getString(key);
+    } else {
+      return "###" + key + "###";
     }
+  }
 
-    @Override
-    public boolean hasProperty(String key) {
-        return messages.containsKey(key);
-    }
+  @Override
+  public boolean hasProperty(String key) {
+    return messages.containsKey(key);
+  }
 }

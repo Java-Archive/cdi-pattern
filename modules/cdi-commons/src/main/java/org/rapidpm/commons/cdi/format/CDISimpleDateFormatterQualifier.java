@@ -22,21 +22,21 @@ import javax.enterprise.util.AnnotationLiteral;
  * Created by Sven Ruppert on 26.12.13.
  */
 public class CDISimpleDateFormatterQualifier
-        extends AnnotationLiteral<CDISimpleDateFormatter>
-        implements CDISimpleDateFormatter{
+    extends AnnotationLiteral<CDISimpleDateFormatter>
+    implements CDISimpleDateFormatter {
 
-    private String value ="";
+  private String value = "";
 
-    @Override
-    public String value() {
-        return value;
-    }
+  @Override
+  public String value() {
+    return value;
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public String getValue() {
+    return value;
+  }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+  public void setValue(String value) {
+    this.value = value;
+  }
 }

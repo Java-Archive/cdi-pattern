@@ -17,114 +17,114 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.rapidpm.cdipattern</groupId>
-        <artifactId>modules</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-
-    <name>cdi-commons-fx</name>
-    <description>Utils for CDI JavaFX</description>
-
-    <artifactId>cdi-commons-fx</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.rapidpm.cdipattern</groupId>
+    <artifactId>modules</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+  </parent>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.symbolic.name>cdi-commons-fx</project.symbolic.name>
-    </properties>
+  <name>cdi-commons-fx</name>
+  <description>Utils for CDI JavaFX</description>
 
-    <dependencies>
+  <artifactId>cdi-commons-fx</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
 
-        <dependency>
-            <groupId>org.rapidpm.cdipattern</groupId>
-            <artifactId>cdi-commons</artifactId>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.rapidpm.cdipattern</groupId>
-            <artifactId>cdi-commons-se</artifactId>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.symbolic.name>cdi-commons-fx</project.symbolic.name>
+  </properties>
 
-        <dependency>
-            <groupId>org.rapidpm.cdipattern</groupId>
-            <artifactId>cdi-commons-se</artifactId>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.rapidpm.cdipattern</groupId>
-            <artifactId>cdi-commons</artifactId>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
+  <dependencies>
 
+    <dependency>
+      <groupId>org.rapidpm.cdipattern</groupId>
+      <artifactId>cdi-commons</artifactId>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.rapidpm.cdipattern</groupId>
+      <artifactId>cdi-commons-se</artifactId>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
 
-        <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se</artifactId>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <!-- testing stuff -->
-
-        <!--<dependency>-->
-            <!--<groupId>org.loadui</groupId>-->
-            <!--<artifactId>testFx</artifactId>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-
-    </dependencies>
+    <dependency>
+      <groupId>org.rapidpm.cdipattern</groupId>
+      <artifactId>cdi-commons-se</artifactId>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.rapidpm.cdipattern</groupId>
+      <artifactId>cdi-commons</artifactId>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
 
 
-    <inceptionYear>2013</inceptionYear>
-    <organization>
-        <name>RapidPM</name>
-        <url>http://www.rapidpm.org</url>
-    </organization>
-    <url>http://wiki.rapidpm.org/display/PHB/03+-+CDI+for+JavaFX+environments</url>
-    <!--<scm>-->
-    <!--<url>https://bitbucket.org/rapidpm/rapidpm-modules</url>-->
-    <!--<connection>scm:git:ssh://git@bitbucket.org//rapidpm/modules.git</connection>-->
-    <!--<developerConnection>scm:git:ssh://git@bitbucket.org//rapidpm/modules.git</developerConnection>-->
-    <!--&lt;!&ndash;<tag>master</tag>&ndash;&gt;-->
-    <!--<tag>rapidpm-parent-1.1</tag>-->
-    <!--</scm>-->
-    <developers>
-        <developer>
-            <name>Sven Ruppert</name>
-            <email>sven.ruppert@rapidpm.org</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-    </developers>
-    <issueManagement>
-        <system>Jira</system>
-        <url>https://bitbucket.org/rapidpm/rapidpm-modules/issues</url>
-    </issueManagement>
-    <ciManagement>
-        <system>Jenkins</system>
-        <url>http://jenkins.rapidpm.org/job/rapidpm-modules/</url>
-        <!--<notifiers>-->
-        <!--<notifier></notifier>-->
-        <!--</notifiers>-->
-    </ciManagement>
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-            <comments>A business-friendly OSS license</comments>
-        </license>
-    </licenses>
-    <!--<reporting>-->
-    <!--<plugins>-->
-    <!--<plugin></plugin>-->
-    <!--</plugins>-->
-    <!--</reporting>-->
+    <dependency>
+      <groupId>org.jboss.weld.se</groupId>
+      <artifactId>weld-se</artifactId>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <!-- testing stuff -->
+
+    <!--<dependency>-->
+    <!--<groupId>org.loadui</groupId>-->
+    <!--<artifactId>testFx</artifactId>-->
+    <!--<scope>test</scope>-->
+    <!--</dependency>-->
+
+  </dependencies>
+
+
+  <inceptionYear>2013</inceptionYear>
+  <organization>
+    <name>RapidPM</name>
+    <url>http://www.rapidpm.org</url>
+  </organization>
+  <url>http://wiki.rapidpm.org/display/PHB/03+-+CDI+for+JavaFX+environments</url>
+  <!--<scm>-->
+  <!--<url>https://bitbucket.org/rapidpm/rapidpm-modules</url>-->
+  <!--<connection>scm:git:ssh://git@bitbucket.org//rapidpm/modules.git</connection>-->
+  <!--<developerConnection>scm:git:ssh://git@bitbucket.org//rapidpm/modules.git</developerConnection>-->
+  <!--&lt;!&ndash;<tag>master</tag>&ndash;&gt;-->
+  <!--<tag>rapidpm-parent-1.1</tag>-->
+  <!--</scm>-->
+  <developers>
+    <developer>
+      <name>Sven Ruppert</name>
+      <email>sven.ruppert@rapidpm.org</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <issueManagement>
+    <system>Jira</system>
+    <url>https://bitbucket.org/rapidpm/rapidpm-modules/issues</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Jenkins</system>
+    <url>http://jenkins.rapidpm.org/job/rapidpm-modules/</url>
+    <!--<notifiers>-->
+    <!--<notifier></notifier>-->
+    <!--</notifiers>-->
+  </ciManagement>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+  <!--<reporting>-->
+  <!--<plugins>-->
+  <!--<plugin></plugin>-->
+  <!--</plugins>-->
+  <!--</reporting>-->
 </project>

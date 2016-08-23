@@ -16,13 +16,12 @@
 
 package org.rapidpm.commons.cdi.registry;
 
+import javax.enterprise.util.Nonbinding;
+import javax.inject.Qualifier;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import javax.enterprise.util.Nonbinding;
-import javax.inject.Qualifier;
 
 /**
  * User: Sven Ruppert
@@ -33,7 +32,7 @@ import javax.inject.Qualifier;
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE})
 public @interface CDIRessourceKey {
-    @Nonbinding String value() default "";
+  @Nonbinding String value() default "";
 
-    Class<?> clazz();
+  Class<?> clazz();
 }

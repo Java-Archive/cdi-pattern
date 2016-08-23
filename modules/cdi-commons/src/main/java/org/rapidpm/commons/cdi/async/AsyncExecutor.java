@@ -16,12 +16,9 @@
 
 package org.rapidpm.commons.cdi.async;
 
+import javax.interceptor.InvocationContext;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
-
-import javax.interceptor.InvocationContext;
-
-import org.rapidpm.commons.cdi.logger.Logger;
 
 /**
  * User: Sven Ruppert
@@ -29,30 +26,30 @@ import org.rapidpm.commons.cdi.logger.Logger;
  * Time: 10:51
  */
 public class AsyncExecutor implements Callable<Future<Object>> {
-    private final InvocationContext invocationContext;
+  private final InvocationContext invocationContext;
 //    private static final Logger logger = new Logger(AsyncExecutor.class);
 //    private final ContextControl contextControl;
 
-    //    AsyncExecutor(InvocationContext invocationContext, Instance<ContextControl> contextControlInstance)
-    public AsyncExecutor(InvocationContext invocationContext) {
-        this.invocationContext = invocationContext;
-    }
+  //    AsyncExecutor(InvocationContext invocationContext, Instance<ContextControl> contextControlInstance)
+  public AsyncExecutor(InvocationContext invocationContext) {
+    this.invocationContext = invocationContext;
+  }
 
-    @Override
-    public Future<Object> call() throws Exception {
-        try {
-            Object result = invocationContext.proceed();
-            if (result instanceof Future) {
-                return (Future) result;
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            System.out.println("AsyncExecutor e = " + e);
-//            throw ExceptionUtils.throwAsRuntimeException(e);
-        } finally {
-
-        }
+  @Override
+  public Future<Object> call() throws Exception {
+    try {
+      Object result = invocationContext.proceed();
+      if (result instanceof Future) {
+        return (Future) result;
+      } else {
         return null;
+      }
+    } catch (Exception e) {
+      System.out.println("AsyncExecutor e = " + e);
+//            throw ExceptionUtils.throwAsRuntimeException(e);
+    } finally {
+
     }
+    return null;
+  }
 }

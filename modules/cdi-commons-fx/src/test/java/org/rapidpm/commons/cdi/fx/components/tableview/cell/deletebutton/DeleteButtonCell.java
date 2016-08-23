@@ -15,27 +15,27 @@ import javax.inject.Inject;
  */
 public class DeleteButtonCell extends CDIButtonCell<TransientTableRow> {
 
-    private @Inject @CDILogger Logger logger;
-    private @Inject KeyMapper mapper;
-    private @Inject DeleteButtonLogic logic;
+  private @Inject @CDILogger Logger logger;
+  private @Inject KeyMapper mapper;
+  private @Inject DeleteButtonLogic logic;
 
-    @Override
-    public String getButtonLabelText() {
-        return mapper.map("delete");
+  public DeleteButtonCell() {
+
+  }
+
+  @PostConstruct
+  public void init() {
+    super.init();
+    if (logger.isDebugEnabled()) {
+      logger.debug("DeleteButtonCell->init");
     }
+    addCellAction(System.out::println);
 
-    public DeleteButtonCell() {
+  }
 
-    }
-
-    @PostConstruct
-    public void init(){
-        super.init();
-        if (logger.isDebugEnabled()) {
-            logger.debug("DeleteButtonCell->init");
-        }
-      addCellAction(System.out::println);
-
-    }
+  @Override
+  public String getButtonLabelText() {
+    return mapper.map("delete");
+  }
 
 }

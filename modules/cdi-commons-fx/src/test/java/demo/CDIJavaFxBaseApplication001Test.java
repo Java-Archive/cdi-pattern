@@ -16,11 +16,6 @@
 
 package demo;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.inject.Inject;
-
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
@@ -32,6 +27,10 @@ import org.rapidpm.commons.cdi.format.CDISimpleDateFormatter;
 import org.rapidpm.commons.cdi.fx.JavaFXBaseTest;
 import org.rapidpm.commons.cdi.logger.CDILogger;
 import org.rapidpm.commons.cdi.logger.Logger;
+
+import javax.inject.Inject;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * User: Sven Ruppert
@@ -46,49 +45,48 @@ public class CDIJavaFxBaseApplication001Test extends JavaFXBaseTest {
 //        return CDIJavaFxBaseApplication001Test.class;
 //    }
 
-    public static class TestImpl extends JavaFXBaseTest.JavaFXBaseTestImpl {
+  public static class TestImpl extends JavaFXBaseTest.JavaFXBaseTestImpl {
 
-        @Override
-        public boolean isExitAfterTest() {
-            return false;
-        }
+    @Inject
+    @CDISimpleDateFormatter(value = "date.yyyyMMdd")
+    SimpleDateFormat sdf;
 
 //        @Override
 //        protected Class<? extends JavaFXBaseTest> getParentTestClass() {
 //            return CDIJavaFxBaseApplication001Test.class;
 //        }
+    @Inject
+    @CDILogger
+    Logger logger;
+    @Inject
+    LoginPane root;
 
-        @Inject
-        @CDISimpleDateFormatter(value = "date.yyyyMMdd")
-        SimpleDateFormat sdf;
-        @Inject
-        @CDILogger
-        Logger logger;
-
-        @Inject
-        LoginPane root;
-
-        @Override
-        public void testImpl(Stage stage) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("testrunn at -> " + sdf.format(new Date()));
-            }
-            stage.setTitle("Login");  //i18n
-            stage.setScene(new Scene(root, 300, 275));
-            stage.show();
-            final Scene scene = stage.getScene();
-
-            //TestCode
-            final TextField login = (TextField) scene.lookup("#loginField");
-            login.setText("LOGIN");
-            final PasswordField passwd = (PasswordField) scene.lookup("#passwordField");
-            passwd.setText("LOGIN");
-
-            final LoginPaneController controller = root.getController();
-            controller.handleSubmitButtonAction(new ActionEvent());
-
-            final Text feedback = (Text) scene.lookup("#feedback");
-            Assert.assertEquals("LOGIN logged in successfully", feedback.getText());
-        }
+    @Override
+    public boolean isExitAfterTest() {
+      return false;
     }
+
+    @Override
+    public void testImpl(Stage stage) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("testrunn at -> " + sdf.format(new Date()));
+      }
+      stage.setTitle("Login");  //i18n
+      stage.setScene(new Scene(root, 300, 275));
+      stage.show();
+      final Scene scene = stage.getScene();
+
+      //TestCode
+      final TextField login = (TextField) scene.lookup("#loginField");
+      login.setText("LOGIN");
+      final PasswordField passwd = (PasswordField) scene.lookup("#passwordField");
+      passwd.setText("LOGIN");
+
+      final LoginPaneController controller = root.getController();
+      controller.handleSubmitButtonAction(new ActionEvent());
+
+      final Text feedback = (Text) scene.lookup("#feedback");
+      Assert.assertEquals("LOGIN logged in successfully", feedback.getText());
+    }
+  }
 }

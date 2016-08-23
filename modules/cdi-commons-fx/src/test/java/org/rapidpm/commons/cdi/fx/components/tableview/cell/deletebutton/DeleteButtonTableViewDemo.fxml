@@ -13,49 +13,49 @@
          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
          AnchorPane.topAnchor="0.0">
 
-    <TableView fx:id="tableViewKunde" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
-               tableMenuButtonVisible="true" editable="true" VBox.vgrow="ALWAYS" style="-fx-font-size: 80%">
-        <columns>
-            <TableColumn text="tcKunde">
-                <cellFactory>
-                    <EditingStringCellFactoryCallback/>
-                </cellFactory>
-                <cellValueFactory>
-                    <PropertyValueFactory property="kunde"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="tcKostenstelle">
-                <cellFactory>
-                    <EditingStringCellFactoryCallback/>
-                </cellFactory>
-                <cellValueFactory>
-                    <PropertyValueFactory property="kostenstelle"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="tcEinmalzahlung">
-                <cellFactory>
-                    <EditingStringCellFactoryCallback/>
-                </cellFactory>
-                <cellValueFactory>
-                    <PropertyValueFactory property="einmalzahlung"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="tcRate">
-                <cellFactory>
-                    <EditingStringCellFactoryCallback/>
-                </cellFactory>
-                <cellValueFactory>
-                    <PropertyValueFactory property="rate"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn text="tcdelete" sortable="false">
-                <cellFactory>
-                    <DeleteButtonCellFactory/>
-                </cellFactory>
-                <cellValueFactory>
-                    <DeleteButtonCellValueFactory/>
-                </cellValueFactory>
-            </TableColumn>
-        </columns>
-    </TableView>
+  <TableView fx:id="tableViewKunde" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+             tableMenuButtonVisible="true" editable="true" VBox.vgrow="ALWAYS" style="-fx-font-size: 80%">
+    <columns>
+      <TableColumn text="tcKunde">
+        <cellFactory>
+          <EditingStringCellFactoryCallback/>
+        </cellFactory>
+        <cellValueFactory>
+          <PropertyValueFactory property="kunde"/>
+        </cellValueFactory>
+      </TableColumn>
+      <TableColumn text="tcKostenstelle">
+        <cellFactory>
+          <EditingStringCellFactoryCallback/>
+        </cellFactory>
+        <cellValueFactory>
+          <PropertyValueFactory property="kostenstelle"/>
+        </cellValueFactory>
+      </TableColumn>
+      <TableColumn text="tcEinmalzahlung">
+        <cellFactory>
+          <EditingStringCellFactoryCallback/>
+        </cellFactory>
+        <cellValueFactory>
+          <PropertyValueFactory property="einmalzahlung"/>
+        </cellValueFactory>
+      </TableColumn>
+      <TableColumn text="tcRate">
+        <cellFactory>
+          <EditingStringCellFactoryCallback/>
+        </cellFactory>
+        <cellValueFactory>
+          <PropertyValueFactory property="rate"/>
+        </cellValueFactory>
+      </TableColumn>
+      <TableColumn text="tcdelete" sortable="false">
+        <cellFactory>
+          <DeleteButtonCellFactory/>
+        </cellFactory>
+        <cellValueFactory>
+          <DeleteButtonCellValueFactory/>
+        </cellValueFactory>
+      </TableColumn>
+    </columns>
+  </TableView>
 </fx:root>

@@ -16,17 +16,16 @@
 
 package org.rapidpm.commons.cdi.fx.components;
 
-import java.io.IOException;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import org.rapidpm.commons.cdi.CDINotMapped;
 import org.rapidpm.commons.cdi.fx.CDIJavaFxBaseController;
 import org.rapidpm.commons.cdi.fx.FXMLLoaderSingleton;
 import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import java.io.IOException;
 
 /**
  * User: Sven Ruppert
@@ -36,19 +35,17 @@ import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
 @CDINotMapped
 public abstract class CDIBaseAnchorPane<T, C extends CDIJavaFxBaseController> extends AnchorPane implements CDIBaseFxComponent<T> {
 
-  public CDIBaseAnchorPane() {
-    AnchorPane.setBottomAnchor(this,0.0);
-    AnchorPane.setTopAnchor(this,0.0);
-    AnchorPane.setLeftAnchor(this,0.0);
-    AnchorPane.setRightAnchor(this,0.0);
-    CDIContainerSingleton.getInstance().activateCDI(this);
-  }
 
-  public
-  @Inject
+  @Inject public
   FXMLLoaderSingleton fxmlLoaderSingleton;
   public C controller;
-
+  public CDIBaseAnchorPane() {
+    AnchorPane.setBottomAnchor(this, 0.0);
+    AnchorPane.setTopAnchor(this, 0.0);
+    AnchorPane.setLeftAnchor(this, 0.0);
+    AnchorPane.setRightAnchor(this, 0.0);
+    CDIContainerSingleton.getInstance().activateCDI(this);
+  }
 
   @PostConstruct
   public void init() {

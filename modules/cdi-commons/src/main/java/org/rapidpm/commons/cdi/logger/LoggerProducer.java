@@ -20,8 +20,6 @@ import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionPoint;
 
-import org.rapidpm.commons.cdi.logger.Logger;
-
 
 /**
  * User: Sven Ruppert
@@ -30,14 +28,15 @@ import org.rapidpm.commons.cdi.logger.Logger;
  */
 public class LoggerProducer {
 
-    /**
-     * @param injectionPoint
-     * @return logger
-     */
-    @Produces
-    @CDILogger
-    public Logger produceLog4JLogger(InjectionPoint injectionPoint, BeanManager beanManager) {
-        final Class<?> declaringClass = injectionPoint.getMember().getDeclaringClass();
-        return new Logger(declaringClass);
-    }
+  /**
+   * @param injectionPoint
+   *
+   * @return logger
+   */
+  @Produces
+  @CDILogger
+  public Logger produceLog4JLogger(InjectionPoint injectionPoint, BeanManager beanManager) {
+    final Class<?> declaringClass = injectionPoint.getMember().getDeclaringClass();
+    return new Logger(declaringClass);
+  }
 }

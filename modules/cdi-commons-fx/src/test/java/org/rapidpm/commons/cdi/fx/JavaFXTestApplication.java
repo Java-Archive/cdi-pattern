@@ -17,7 +17,6 @@
 package org.rapidpm.commons.cdi.fx;
 
 import javafx.stage.Stage;
-import org.rapidpm.commons.cdi.fx.CDIJavaFXBaseApplication;
 
 /**
  * User: Sven Ruppert
@@ -25,8 +24,8 @@ import org.rapidpm.commons.cdi.fx.CDIJavaFXBaseApplication;
  * Time: 12:45
  */
 public class JavaFXTestApplication extends CDIJavaFXBaseApplication {
-    @Override
-    public void startImpl(Stage primaryStage) throws Exception {
-        //nothing
-    }
+  @Override
+  public void startImpl(Stage primaryStage) throws Exception {
+    //nothing
+  }
 }

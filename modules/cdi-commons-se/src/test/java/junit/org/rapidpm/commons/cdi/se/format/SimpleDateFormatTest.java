@@ -16,17 +16,18 @@
 
 package junit.org.rapidpm.commons.cdi.se.format;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.enterprise.util.AnnotationLiteral;
-import javax.inject.Inject;
-
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.rapidpm.commons.cdi.format.CDISimpleDateFormatter;
 import org.rapidpm.commons.cdi.format.CDISimpleDateFormatterQualifier;
 import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
+
+import javax.inject.Inject;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * User: Sven Ruppert
@@ -35,87 +36,85 @@ import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
  */
 public class SimpleDateFormatTest {
 
-    @Before
-    public void before() throws Exception {
-    }
+  @Before
+  public void before() throws Exception {
+  }
 
-    @After
-    public void after() throws Exception {
-    }
+  @After
+  public void after() throws Exception {
+  }
 
-    public static class TestClassDemoA {
-        public String str = "A - " + System.nanoTime();
+  /**
+   * Method: getInstance()
+   */
+  @Test
+  public void testGetInstance() throws Exception {
+    final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
+    Assert.assertNotNull(instance);
+  }
 
-        @Inject
-        @CDISimpleDateFormatter
-        SimpleDateFormat sdf;
+  /**
+   * Method: getManagedInstance(final Class<T> clazz)
+   */
+  @Test
 
-        @Inject
-        @CDISimpleDateFormatter("date.yyyy")
-        SimpleDateFormat sdfYYYY;
-
-    }
-
-
-    /**
-     * Method: getInstance()
-     */
-    @Test
-    public void testGetInstance() throws Exception {
-        final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
-        Assert.assertNotNull(instance);
-    }
-
-    /**
-     * Method: getManagedInstance(final Class<T> clazz)
-     */
-    @Test
-
-    public void testGetManagedInstance() throws Exception {
-        final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
-        Assert.assertNotNull(instance);
+  public void testGetManagedInstance() throws Exception {
+    final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
+    Assert.assertNotNull(instance);
 //        final SimpleDateFormat simpleDateFormat = instance.getManagedInstance(new AnnotationLiteral<CDISimpleDateFormatter>() { },SimpleDateFormat.class);
-        final SimpleDateFormat simpleDateFormat = instance.getManagedInstance(new CDISimpleDateFormatterQualifier(),SimpleDateFormat.class);
-        Assert.assertNotNull(simpleDateFormat);
-    }
+    final SimpleDateFormat simpleDateFormat = instance.getManagedInstance(new CDISimpleDateFormatterQualifier(), SimpleDateFormat.class);
+    Assert.assertNotNull(simpleDateFormat);
+  }
 
+  /**
+   * Method: createDefault(InjectionPoint injectionPoint)
+   */
+  @Test
+  public void testProduceSimpleDateFormatter01() throws Exception {
+    final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
+    final TestClassDemoA testClassDemoA = instance.getManagedInstance(TestClassDemoA.class);
+    final SimpleDateFormat sdfYYYY = testClassDemoA.sdfYYYY;
+    Assert.assertNotNull(sdfYYYY);
 
-    /**
-     * Method: createDefault(InjectionPoint injectionPoint)
-     */
-    @Test
-    public void testProduceSimpleDateFormatter01() throws Exception {
-        final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
-        final TestClassDemoA testClassDemoA = instance.getManagedInstance(TestClassDemoA.class);
-        final SimpleDateFormat sdfYYYY = testClassDemoA.sdfYYYY;
-        Assert.assertNotNull(sdfYYYY);
+    final Calendar calendar = Calendar.getInstance();
+    calendar.clear();
+    calendar.set(2010, Calendar.JANUARY, 1, 00, 00, 00);
+    final Date date = calendar.getTime();
+    System.out.println("date = " + date);
+    final String format = sdfYYYY.format(date);
+    System.out.println("format = " + format);
+    Assert.assertTrue(format.equals("2010"));
+  }
 
-        final Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.set(2010, Calendar.JANUARY, 1, 00, 00, 00);
-        final Date date = calendar.getTime();
-        System.out.println("date = " + date);
-        final String format = sdfYYYY.format(date);
-        System.out.println("format = " + format);
-        Assert.assertTrue(format.equals("2010"));
-    }
+  @Test
+  public void testProduceSimpleDateFormatter02() throws Exception {
+    final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
+    final TestClassDemoA testClassDemoA = instance.getManagedInstance(TestClassDemoA.class);
+    final SimpleDateFormat sdfYYYY = testClassDemoA.sdfYYYY;
 
-    @Test
-    public void testProduceSimpleDateFormatter02() throws Exception {
-        final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
-        final TestClassDemoA testClassDemoA = instance.getManagedInstance(TestClassDemoA.class);
-        final SimpleDateFormat sdfYYYY = testClassDemoA.sdfYYYY;
+    Assert.assertNotNull(sdfYYYY);
+    final Date parse = sdfYYYY.parse("2010");
+    System.out.println("parse = " + parse);
+    final Calendar calendar = Calendar.getInstance();
+    calendar.clear();
+    calendar.set(2010, Calendar.JANUARY, 1, 00, 00, 00);
+    final Date date = calendar.getTime();
+    System.out.println("date = " + date);
+    Assert.assertTrue(date.equals(parse));
+  }
 
-        Assert.assertNotNull(sdfYYYY);
-        final Date parse = sdfYYYY.parse("2010");
-        System.out.println("parse = " + parse);
-        final Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.set(2010, Calendar.JANUARY, 1, 00, 00, 00);
-        final Date date = calendar.getTime();
-        System.out.println("date = " + date);
-        Assert.assertTrue(date.equals(parse));
-    }
+  public static class TestClassDemoA {
+    public String str = "A - " + System.nanoTime();
+
+    @Inject
+    @CDISimpleDateFormatter
+    SimpleDateFormat sdf;
+
+    @Inject
+    @CDISimpleDateFormatter("date.yyyy")
+    SimpleDateFormat sdfYYYY;
+
+  }
 
 
 }

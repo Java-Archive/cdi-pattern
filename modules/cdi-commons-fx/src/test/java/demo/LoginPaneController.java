@@ -16,11 +16,6 @@
 
 package demo;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javax.inject.Inject;
-
 import javafx.application.Application.Parameters;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,50 +23,54 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import org.rapidpm.commons.cdi.fx.CDIJavaFXBaseApp;
-import org.rapidpm.commons.cdi.fx.CDIJavaFxBaseController;
 import org.rapidpm.commons.cdi.fx.JavaFXBaseController;
+
+import javax.inject.Inject;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 // Simple application controller that uses injected fields 
 // to delegate login process and to get default values from the command line using: --user=SomeUser
 public class LoginPaneController extends JavaFXBaseController {
-    // Standard FXML injected fields
-    @FXML TextField loginField;
-    @FXML PasswordField passwordField;
-    @FXML Text feedback;
+  // Standard FXML injected fields
+  @FXML TextField loginField;
+  @FXML PasswordField passwordField;
+  @FXML Text feedback;
 
-    // CDI Injected field
-    @Inject LoginService loginService;
+  // CDI Injected field
+  @Inject LoginService loginService;
 
-    // Default application parameters
-    @Inject @CDIJavaFXBaseApp
-    Parameters applicationParameters;
+  // Default application parameters
+  @Inject @CDIJavaFXBaseApp
+  Parameters applicationParameters;
 
-    @FXML protected void handleSubmitButtonAction(ActionEvent event) {
-        feedback.setText(loginService.login(loginField.getText(), passwordField.getText()));
-    }
+  @FXML
+  protected void handleSubmitButtonAction(ActionEvent event) {
+    feedback.setText(loginService.login(loginField.getText(), passwordField.getText()));
+  }
 
-    @Override
-    public void cleanUp() {
+  @Override
+  public void cleanUp() {
 
-    }
+  }
 
-    @Override
-    public void setI18n() {
+  @Override
+  public void setI18n() {
 
-    }
+  }
 
-    @Override
-    public void cdiPostConstruct() {
+  @Override
+  public void cdiPostConstruct() {
 
-    }
+  }
 
-    @Override
-    protected void initializeFX(URL url, ResourceBundle resourceBundle) {
-        loginField.setText(applicationParameters.getNamed().get("user"));
-    }
+  @Override
+  protected void initializeFX(URL url, ResourceBundle resourceBundle) {
+    loginField.setText(applicationParameters.getNamed().get("user"));
+  }
 
-    @Override
-    public void initBusinessLogic() {
+  @Override
+  public void initBusinessLogic() {
 
-    }
+  }
 }

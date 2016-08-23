@@ -31,48 +31,48 @@ import java.util.Map;
  */
 public class CDIInvocationHandler implements InvocationHandler {
 
-    @Inject @CDILogger Logger logger;
+  @Inject @CDILogger Logger logger;
 
-    private Map<MethodIdentifier, Method> adaptedMethods = new HashMap<>();
+  private Map<MethodIdentifier, Method> adaptedMethods = new HashMap<>();
 
-    private Object adapter;
-    private Object adaptee;
+  private Object adapter;
+  private Object adaptee;
 
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+  @Override
+  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-        if (adaptedMethods.isEmpty()){
-            final Class<?> adapterClass = adapter.getClass();
-            Method[] methods = adapterClass.getDeclaredMethods();
-            for (Method m : methods) {
-                adaptedMethods.put(new MethodIdentifier(m), m);
-            }
-        }else{
-            if (logger.isDebugEnabled()) {
-                logger.debug("adaptedMethods is initialized..");
-            }
-        }
-        try {
-            Method other = adaptedMethods.get(new MethodIdentifier(method));
-            if (other != null) {
-                return other.invoke(adapter, args);
-            } else {
-                return method.invoke(adaptee, args);
-            }
-        } catch (InvocationTargetException e) {
-            throw e.getTargetException();
-        }
+    if (adaptedMethods.isEmpty()) {
+      final Class<?> adapterClass = adapter.getClass();
+      Method[] methods = adapterClass.getDeclaredMethods();
+      for (Method m : methods) {
+        adaptedMethods.put(new MethodIdentifier(m), m);
+      }
+    } else {
+      if (logger.isDebugEnabled()) {
+        logger.debug("adaptedMethods is initialized..");
+      }
     }
-
-    public CDIInvocationHandler adapter(final Object adapter) {
-        this.adapter = adapter;
-        return this;
+    try {
+      Method other = adaptedMethods.get(new MethodIdentifier(method));
+      if (other != null) {
+        return other.invoke(adapter, args);
+      } else {
+        return method.invoke(adaptee, args);
+      }
+    } catch (InvocationTargetException e) {
+      throw e.getTargetException();
     }
+  }
 
-    public CDIInvocationHandler adaptee(final Object adaptee) {
-        this.adaptee = adaptee;
-        return this;
-    }
+  public CDIInvocationHandler adapter(final Object adapter) {
+    this.adapter = adapter;
+    return this;
+  }
+
+  public CDIInvocationHandler adaptee(final Object adaptee) {
+    this.adaptee = adaptee;
+    return this;
+  }
 
 
 }

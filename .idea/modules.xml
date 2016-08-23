@@ -5,8 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/modules/cdi-commons/cdi-commons.iml" filepath="$PROJECT_DIR$/modules/cdi-commons/cdi-commons.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/cdi-commons-fx/cdi-commons-fx.iml" filepath="$PROJECT_DIR$/modules/cdi-commons-fx/cdi-commons-fx.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/cdi-commons-se/cdi-commons-se.iml" filepath="$PROJECT_DIR$/modules/cdi-commons-se/cdi-commons-se.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cdi-pattern.iml" filepath="$PROJECT_DIR$/cdi-pattern.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/modules.iml" filepath="$PROJECT_DIR$/modules/modules.iml" />
-      <module fileurl="file://$PROJECT_DIR$/parent.iml" filepath="$PROJECT_DIR$/parent.iml" />
     </modules>
   </component>
 </project>

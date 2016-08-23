@@ -28,33 +28,33 @@ import javax.enterprise.util.AnnotationLiteral;
  */
 public class Message<T> {
 
-    private AnnotationLiteral annotationLiteral;
+  private AnnotationLiteral annotationLiteral;
 
-    private T value;
+  private T value;
 
 
-    public AnnotationLiteral getAnnotationLiteral() {
-        return annotationLiteral;
-    }
+  public AnnotationLiteral getAnnotationLiteral() {
+    return annotationLiteral;
+  }
 
-    public void setAnnotationLiteral(AnnotationLiteral annotationLiteral) {
-        this.annotationLiteral = annotationLiteral;
-    }
+  public void setAnnotationLiteral(AnnotationLiteral annotationLiteral) {
+    this.annotationLiteral = annotationLiteral;
+  }
 
-    public T getValue() {
-        return value;
-    }
+  public T getValue() {
+    return value;
+  }
 
-    public void setValue(T value) {
-        this.value = value;
-    }
+  public void setValue(T value) {
+    this.value = value;
+  }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Message{");
-        sb.append("annotationLiteral=").append(annotationLiteral);
-        sb.append(", value=").append(value);
-        sb.append('}');
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder("Message{");
+    sb.append("annotationLiteral=").append(annotationLiteral);
+    sb.append(", value=").append(value);
+    sb.append('}');
+    return sb.toString();
+  }
 }

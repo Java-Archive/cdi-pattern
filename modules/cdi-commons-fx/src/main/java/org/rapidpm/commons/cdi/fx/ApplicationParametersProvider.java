@@ -17,10 +17,10 @@
 package org.rapidpm.commons.cdi.fx;
 
 
+import javafx.application.Application;
+
 import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
-
-import javafx.application.Application;
 
 /**
  * User: Sven Ruppert
@@ -28,16 +28,20 @@ import javafx.application.Application;
  * Time: 11:55
  */
 
-@Singleton @CDIJavaFXBaseApp
+@Singleton
+@CDIJavaFXBaseApp
 public class ApplicationParametersProvider {
-    private Application.Parameters parameters;
+  private Application.Parameters parameters;
 
-    void setParameters(Application.Parameters p) {
-        this.parameters = p;
-    }
 
-    public @Produces @CDIJavaFXBaseApp
-    Application.Parameters getParameters() {
-        return this.parameters;
-    }
+  @Produces
+  @CDIJavaFXBaseApp
+  public
+  Application.Parameters getParameters() {
+    return this.parameters;
+  }
+
+  void setParameters(Application.Parameters p) {
+    this.parameters = p;
+  }
 }

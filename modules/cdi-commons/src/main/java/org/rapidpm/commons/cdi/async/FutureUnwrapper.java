@@ -27,40 +27,40 @@ import java.util.concurrent.TimeoutException;
  * Time: 10:55
  */
 public class FutureUnwrapper<V extends Future<Object>> implements Future<Object> {
-    //future which wraps a future
-    private final V wrappingFuture;
+  //future which wraps a future
+  private final V wrappingFuture;
 
-    FutureUnwrapper(V future) {
-        this.wrappingFuture = future;
+  FutureUnwrapper(V future) {
+    this.wrappingFuture = future;
+  }
+
+  public boolean cancel(boolean mayInterruptIfRunning) {
+    return this.wrappingFuture.cancel(mayInterruptIfRunning);
+  }
+
+  public boolean isCancelled() {
+    return wrappingFuture.isCancelled();
+  }
+
+  public boolean isDone() {
+    return wrappingFuture.isDone();
+  }
+
+  public Object get() throws InterruptedException, ExecutionException {
+    Object result = wrappingFuture.get();
+
+    if (result instanceof Future) {
+      return ((Future<Object>) result).get();
     }
+    return result;
+  }
 
-    public boolean cancel(boolean mayInterruptIfRunning) {
-        return this.wrappingFuture.cancel(mayInterruptIfRunning);
+  public Object get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+    Object result = wrappingFuture.get(timeout, unit);
+
+    if (result instanceof Future) {
+      return ((Future<Object>) result).get();
     }
-
-    public Object get() throws InterruptedException, ExecutionException {
-        Object result = wrappingFuture.get();
-
-        if (result instanceof Future) {
-            return ((Future<Object>) result).get();
-        }
-        return result;
-    }
-
-    public Object get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-        Object result = wrappingFuture.get(timeout, unit);
-
-        if (result instanceof Future) {
-            return ((Future<Object>) result).get();
-        }
-        return result;
-    }
-
-    public boolean isCancelled() {
-        return wrappingFuture.isCancelled();
-    }
-
-    public boolean isDone() {
-        return wrappingFuture.isDone();
-    }
+    return result;
+  }
 }

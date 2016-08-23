@@ -16,18 +16,17 @@
 
 package org.rapidpm.commons.cdi.registry.property.impl.file;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-
 import org.rapidpm.commons.cdi.logger.CDILogger;
+import org.rapidpm.commons.cdi.logger.Logger;
 import org.rapidpm.commons.cdi.registry.property.PropertyRegistry;
 import org.rapidpm.commons.cdi.registry.property.PropertyRegistryService;
-import org.rapidpm.commons.cdi.registry.property.impl.file.registries.ClassFilePropertyRegistry;
-import org.rapidpm.commons.cdi.registry.property.impl.file.registries.ModulFilePropertyRegistry;
 import org.rapidpm.commons.cdi.registry.property.impl.CompanyPropertyRegistry;
 import org.rapidpm.commons.cdi.registry.property.impl.file.registries.ApplicationFilePropertyRegistry;
-import org.rapidpm.commons.cdi.logger.Logger;
+import org.rapidpm.commons.cdi.registry.property.impl.file.registries.ClassFilePropertyRegistry;
+import org.rapidpm.commons.cdi.registry.property.impl.file.registries.ModulFilePropertyRegistry;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,44 +38,44 @@ import java.util.List;
  */
 public class FileBasedPropertyRegistryService extends PropertyRegistryService implements Serializable {
 
-    private @Inject @CDILogger Logger logger;
+  @Inject @CDILogger private Logger logger;
 
-    private @Inject @CDIPropertyRegistryFileBased
-    CompanyPropertyRegistry companyPropertyRegistry;
+  @Inject @CDIPropertyRegistryFileBased private
+  CompanyPropertyRegistry companyPropertyRegistry;
 
-    private @Inject @CDIPropertyRegistryFileBased
-    ApplicationFilePropertyRegistry applicationFilePropertyRegistry;
+  @Inject @CDIPropertyRegistryFileBased private
+  ApplicationFilePropertyRegistry applicationFilePropertyRegistry;
 
-    private @Inject @CDIPropertyRegistryFileBased
-    ModulFilePropertyRegistry modulFilePropertyRegistry;
+  @Inject @CDIPropertyRegistryFileBased private
+  ModulFilePropertyRegistry modulFilePropertyRegistry;
 
-    private @Inject @CDIPropertyRegistryFileBased
-    ClassFilePropertyRegistry classFilePropertyRegistry;
+  @Inject @CDIPropertyRegistryFileBased private
+  ClassFilePropertyRegistry classFilePropertyRegistry;
 
 
-    private List<PropertyRegistry> registries = new ArrayList<>();
+  private List<PropertyRegistry> registries = new ArrayList<>();
 
-    @PostConstruct
-    public void init(){
-        registries.clear();
-        registries.add(classFilePropertyRegistry);
-        registries.add(modulFilePropertyRegistry);
-        registries.add(applicationFilePropertyRegistry);
-        registries.add(companyPropertyRegistry);
-    }
+  @PostConstruct
+  public void init() {
+    registries.clear();
+    registries.add(classFilePropertyRegistry);
+    registries.add(modulFilePropertyRegistry);
+    registries.add(applicationFilePropertyRegistry);
+    registries.add(companyPropertyRegistry);
+  }
 
-    @Override
-    public String getRessourceForKey(String ressourceKey) {
+  @Override
+  public String getRessourceForKey(String ressourceKey) {
 
-        return registries.stream()
-                .filter(r->r.hasProperty(ressourceKey))
-                .map(r -> {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug(r.getClass().getSimpleName() + " found Property " + ressourceKey);
-                    }
-                    return r.getProperty(ressourceKey);
-                })
-                .findFirst()
-                .orElse("###" + ressourceKey + "###");
-    }
+    return registries.stream()
+        .filter(r -> r.hasProperty(ressourceKey))
+        .map(r -> {
+          if (logger.isDebugEnabled()) {
+            logger.debug(r.getClass().getSimpleName() + " found Property " + ressourceKey);
+          }
+          return r.getProperty(ressourceKey);
+        })
+        .findFirst()
+        .orElse("###" + ressourceKey + "###");
+  }
 }

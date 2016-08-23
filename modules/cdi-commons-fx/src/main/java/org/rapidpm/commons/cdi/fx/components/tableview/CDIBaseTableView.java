@@ -27,22 +27,18 @@ public class CDIBaseTableView extends TableView {
 
   public CDIBaseTableView() {
     AnchorPane.setBottomAnchor(this, 0.0);
-    AnchorPane.setTopAnchor(this,0.0);
-    AnchorPane.setLeftAnchor(this,0.0);
-    AnchorPane.setRightAnchor(this,0.0);
+    AnchorPane.setTopAnchor(this, 0.0);
+    AnchorPane.setLeftAnchor(this, 0.0);
+    AnchorPane.setRightAnchor(this, 0.0);
   }
 
   public CDIBaseTableView(ObservableList items) {
     super(items);
-    AnchorPane.setBottomAnchor(this,0.0);
-    AnchorPane.setTopAnchor(this,0.0);
-    AnchorPane.setLeftAnchor(this,0.0);
-    AnchorPane.setRightAnchor(this,0.0);
+    AnchorPane.setBottomAnchor(this, 0.0);
+    AnchorPane.setTopAnchor(this, 0.0);
+    AnchorPane.setLeftAnchor(this, 0.0);
+    AnchorPane.setRightAnchor(this, 0.0);
   }
-
-
-
-
 
 
 }

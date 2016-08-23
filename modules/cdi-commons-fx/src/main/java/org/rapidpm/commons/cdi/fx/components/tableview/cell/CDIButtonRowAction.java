@@ -27,7 +27,7 @@ import javax.inject.Inject;
  * Created by Sven Ruppert on 07.08.2014.
  */
 public abstract class CDIButtonRowAction<T> {
-  public @Inject @CDILogger Logger logger;
+   @Inject @CDILogger public Logger logger;
 
   public void execute(TableRow<T> tableRow, ActionEvent t) {
     workOnRow(tableRow);

@@ -19,81 +19,80 @@ package org.rapidpm.commons.cdi.fx.components.tableview.cell.callback;
 import javafx.scene.Node;
 import javafx.scene.control.TableCell;
 import org.rapidpm.commons.cdi.logger.CDILogger;
-import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
 import org.rapidpm.commons.cdi.logger.Logger;
+import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
 
 import javax.inject.Inject;
 
 /**
  * User: Sven Ruppert Date: 17.09.13 Time: 16:44
  */
-public abstract class AbstractEditingCell<S,T> extends TableCell<S, T> {
+public abstract class AbstractEditingCell<S, T> extends TableCell<S, T> {
 
-    private @Inject @CDILogger Logger logger;
+   @Inject @CDILogger private Logger logger;
 
-    protected AbstractEditingCell() {
-        CDIContainerSingleton.getInstance().activateCDI(this);
+  protected AbstractEditingCell() {
+    CDIContainerSingleton.getInstance().activateCDI(this);
+  }
+
+  @Override
+  public void startEdit() {
+    if (!isEmpty()) {
+      super.startEdit();
+      createValueField();
+      setText(null);
+      setGraphic(getGraphicNode());
+      startEditIsNotEmptyLastActions();
     }
+  }
 
-    @Override
-    public void startEdit() {
-        if (!isEmpty()) {
-            super.startEdit();
-            createValueField();
-            setText(null);
-            setGraphic(getGraphicNode());
-            startEditIsNotEmptyLastActions();
-        }
+  public abstract void createValueField();
+
+  public abstract Node getGraphicNode();
+
+  public abstract void startEditIsNotEmptyLastActions();
+
+  @Override
+  public void updateItem(T item, boolean empty) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("updateItem " + item);
     }
-
-
-    @Override
-    public void updateItem(T item, boolean empty) {
+    super.updateItem(item, empty);
+    if (empty) {
+      setText(null);
+      setGraphic(null);
+    } else {
+      if (isEditing()) {
         if (logger.isDebugEnabled()) {
-            logger.debug("updateItem " + item);
+          logger.debug("isEditing == true");
         }
-        super.updateItem(item, empty);
-        if (empty) {
-            setText(null);
-            setGraphic(null);
-        } else {
-            if (isEditing()) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("isEditing == true");
-                }
-                updateItemIsEditing();
-                setText(null);
-                setGraphic(getGraphicNode());
-            } else {
-                setText(getString());
-                setGraphic(null);
-            }
-        }
+        updateItemIsEditing();
+        setText(null);
+        setGraphic(getGraphicNode());
+      } else {
+        setText(getString());
+        setGraphic(null);
+      }
     }
+  }
 
-    public String getString() {
-        if (logger.isDebugEnabled()) {
-            logger.debug("getString called ");
-        }
-        if (getItem() == null) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("getString -> = '' ");
-            }
-            return "";
-        } else {
-            return getStringIfItemNotNull();
-        }
+  public abstract void updateItemIsEditing();
+
+  public String getString() {
+    if (logger.isDebugEnabled()) {
+      logger.debug("getString called ");
     }
+    if (getItem() == null) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("getString -> = '' ");
+      }
+      return "";
+    } else {
+      return getStringIfItemNotNull();
+    }
+  }
 
-    public abstract void updateItemIsEditing();
-
-    public abstract String getStringIfItemNotNull();
-
-    public abstract void startEditIsNotEmptyLastActions();
-
-    public abstract Node getGraphicNode();
-
-    public abstract void createValueField();
+  public abstract String getStringIfItemNotNull();
 
 
 }

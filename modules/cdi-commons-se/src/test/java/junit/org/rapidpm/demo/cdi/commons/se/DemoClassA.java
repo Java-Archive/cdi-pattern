@@ -16,9 +16,9 @@
 
 package junit.org.rapidpm.demo.cdi.commons.se;
 
-import java.util.Objects;
-
 import org.jboss.weld.environment.se.contexts.ThreadScoped;
+
+import java.util.Objects;
 
 /**
  * User: Sven Ruppert
@@ -30,46 +30,49 @@ import org.jboss.weld.environment.se.contexts.ThreadScoped;
 public class DemoClassA {
 
 
-    private String txNumber = System.nanoTime()+"";
+  private String txNumber = System.nanoTime() + "";
 
-    /**
-     * Gets tx number.
-     *
-     * @return the tx number
-     */
-    public String getTxNumber() {
-        return txNumber;
+  /**
+   * Gets tx number.
+   *
+   * @return the tx number
+   */
+  public String getTxNumber() {
+    return txNumber;
+  }
+
+  /**
+   * Sets tx number.
+   *
+   * @param txNumber the tx number
+   */
+  public void setTxNumber(String txNumber) {
+    this.txNumber = txNumber;
+  }
+
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(txNumber);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-
-    /**
-     * Sets tx number.
-     *
-     * @param txNumber the tx number
-     */
-    public void setTxNumber(String txNumber) {
-        this.txNumber = txNumber;
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
     }
+    final DemoClassA other = (DemoClassA) obj;
+    return Objects.equals(this.txNumber, other.txNumber);
+  }
 
-
-    @Override public int hashCode() {
-        return Objects.hash(txNumber);
-    }
-
-    @Override public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        final DemoClassA other = (DemoClassA) obj;
-        return Objects.equals(this.txNumber, other.txNumber);
-    }
-
-    @Override public String toString() {
-        final StringBuilder sb = new StringBuilder("DemoClassA{");
-        sb.append("txNumber='").append(txNumber).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder("DemoClassA{");
+    sb.append("txNumber='").append(txNumber).append('\'');
+    sb.append('}');
+    return sb.toString();
+  }
 }

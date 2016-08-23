@@ -16,17 +16,16 @@
 
 package org.rapidpm.commons.cdi.se.filesystem;
 
+import org.rapidpm.commons.cdi.format.CDISimpleDateFormatter;
+import org.rapidpm.commons.cdi.logger.CDILogger;
+import org.rapidpm.commons.cdi.logger.Logger;
+import org.rapidpm.commons.cdi.se.CDICommonsSE;
+
+import javax.inject.Inject;
 import java.io.File;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.inject.Inject;
-
-import org.rapidpm.commons.cdi.format.CDISimpleDateFormatter;
-import org.rapidpm.commons.cdi.logger.CDILogger;
-import org.rapidpm.commons.cdi.se.CDICommonsSE;
-import org.rapidpm.commons.cdi.logger.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -46,36 +45,36 @@ import org.rapidpm.commons.cdi.logger.Logger;
  * 30 this file would be given back.
  */
 @CDICommonsSE
-public class TargetDateFile implements Serializable{
+public class TargetDateFile implements Serializable {
 
-    private @Inject @CDILogger Logger logger;
+   @Inject @CDILogger private Logger logger;
 
-    @Inject
-    @CDISimpleDateFormatter("date.yyyy")
-    private SimpleDateFormat sdfYYYY;
-    @Inject
-    @CDISimpleDateFormatter("date.MM")
-    private SimpleDateFormat sdfMM;
-    @Inject
-    @CDISimpleDateFormatter("date.dd")
-    private SimpleDateFormat sdfdd;
+  @Inject
+  @CDISimpleDateFormatter("date.yyyy")
+  private SimpleDateFormat sdfYYYY;
+  @Inject
+  @CDISimpleDateFormatter("date.MM")
+  private SimpleDateFormat sdfMM;
+  @Inject
+  @CDISimpleDateFormatter("date.dd")
+  private SimpleDateFormat sdfdd;
 
 
-    public File createDailyDir(File baseDir, Date date) {
-        final File yyyy = new File(baseDir, sdfYYYY.format(date));
-        final File mm = new File(yyyy, sdfMM.format(date));
-        final File dd = new File(mm, sdfdd.format(date));
-        if (!yyyy.exists()) {
-            //
-            yyyy.mkdir();
-        }
-        if (! mm.exists()) {
-            mm.mkdir();
-        }
-        if (! dd.exists()) {
-            dd.mkdir();
-        }
-        return dd;
+  public File createDailyDir(File baseDir, Date date) {
+    final File yyyy = new File(baseDir, sdfYYYY.format(date));
+    final File mm = new File(yyyy, sdfMM.format(date));
+    final File dd = new File(mm, sdfdd.format(date));
+    if (!yyyy.exists()) {
+      //
+      yyyy.mkdir();
     }
+    if (!mm.exists()) {
+      mm.mkdir();
+    }
+    if (!dd.exists()) {
+      dd.mkdir();
+    }
+    return dd;
+  }
 
 }

@@ -8,6 +8,4 @@ package org.rapidpm.commons.cdi.fx.components.tableview.cell.deletebutton;
 public class DeleteButtonLogic {
 
 
-
-
 }

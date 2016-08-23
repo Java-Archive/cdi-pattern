@@ -17,25 +17,13 @@
       <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
       </profile>
-      <profile default="false" name="Annotation profile for cdi-commons" enabled="true">
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="cdi-commons" />
-      </profile>
-      <profile default="false" name="Annotation profile for cdi-commons-fx" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
         <module name="cdi-commons-fx" />
-      </profile>
-      <profile default="false" name="Annotation profile for cdi-commons-se" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
         <module name="cdi-commons-se" />
       </profile>
     </annotationProcessing>
@@ -43,8 +31,8 @@
       <module name="cdi-commons" target="1.8" />
       <module name="cdi-commons-fx" target="1.8" />
       <module name="cdi-commons-se" target="1.8" />
+      <module name="cdi-pattern" target="1.8" />
       <module name="modules" target="1.8" />
-      <module name="parent" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

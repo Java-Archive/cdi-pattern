@@ -11,29 +11,28 @@ import java.util.ResourceBundle;
 public class DeleteButtonTableViewDemoPaneController extends JavaFXBaseController {
 
 
+  @Override
+  public void cleanUp() {
 
-    @Override
-    protected void initializeFX(URL url, ResourceBundle resourceBundle) {
+  }
 
-    }
+  @Override
+  public void setI18n() {
 
-    @Override
-    public void initBusinessLogic() {
+  }
 
-    }
+  @Override
+  public void cdiPostConstruct() {
 
-    @Override
-    public void cleanUp() {
+  }
 
-    }
+  @Override
+  protected void initializeFX(URL url, ResourceBundle resourceBundle) {
 
-    @Override
-    public void setI18n() {
+  }
 
-    }
+  @Override
+  public void initBusinessLogic() {
 
-    @Override
-    public void cdiPostConstruct() {
-
-    }
+  }
 }

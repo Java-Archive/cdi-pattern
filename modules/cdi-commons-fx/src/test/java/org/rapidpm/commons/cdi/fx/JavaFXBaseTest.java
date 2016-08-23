@@ -30,33 +30,30 @@ import javax.inject.Inject;
  * Date: 24.07.13
  * Time: 11:37
  */
-public abstract class JavaFXBaseTest  {
+public abstract class JavaFXBaseTest {
 
-    @Before
-    public void beforeTest() {
+  @Before
+  public void beforeTest() {
+  }
+
+
+  @After
+  public void afterTest() {
+
+  }
+
+
+  public static abstract class JavaFXBaseTestImpl {
+
+    @Inject public FXMLLoaderSingleton fxmlLoaderSingleton;
+    @Inject @CDILogger Logger logger;
+
+    public abstract boolean isExitAfterTest();
+
+    public void launchJavaFXApplication(@Observes @CDIStartupScene Stage stage) {
+      testImpl(stage);
     }
 
-
-
-    @After
-    public void afterTest() {
-
-    }
-
-
-    public static abstract class JavaFXBaseTestImpl {
-
-        public abstract boolean isExitAfterTest();
-
-
-        @Inject @CDILogger Logger logger;
-
-        @Inject public FXMLLoaderSingleton fxmlLoaderSingleton;
-
-        public void launchJavaFXApplication(@Observes @CDIStartupScene Stage stage) {
-            testImpl(stage);
-        }
-
-        public abstract void testImpl(final Stage stage);
-    }
+    public abstract void testImpl(final Stage stage);
+  }
 }

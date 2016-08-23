@@ -27,63 +27,63 @@ import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
 /**
  * User: Sven Ruppert Date: 13.09.13 Time: 07:16
  */
-public class EditingStringCellFactoryCallback<S> implements Callback<TableColumn<S, ? extends String>, TableCell<S, ? extends String >> {
+public class EditingStringCellFactoryCallback<S> implements Callback<TableColumn<S, ? extends String>, TableCell<S, ? extends String>> {
 
-    public EditingStringCellFactoryCallback() {
-        CDIContainerSingleton.getInstance().activateCDI(this);
+  public EditingStringCellFactoryCallback() {
+    CDIContainerSingleton.getInstance().activateCDI(this);
+  }
+
+  @Override
+  public TableCell<S, ? extends String> call(TableColumn<S, ? extends String> tableColumn) {
+    return new EditingCell();
+  }
+
+  public static class EditingCell<S> extends AbstractEditingCell<S, String> {
+
+    private TextField textField;
+
+    public EditingCell() {
     }
 
     @Override
-    public TableCell<S, ? extends String> call(TableColumn<S, ? extends String> tableColumn) {
-        return new EditingCell();
+    public void cancelEdit() {
+      super.cancelEdit();
+      setText(getItem());
+      setGraphic(null);
     }
 
-    public static class EditingCell<S> extends AbstractEditingCell<S,String> {
-
-        private TextField textField;
-
-        public EditingCell() {
+    public void createValueField() {
+      textField = new TextField(getString());
+      textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
+      textField.focusedProperty().addListener((arg0, arg1, arg2) -> {
+        if (!arg2) {
+          commitEdit(textField.getText());
         }
-
-        @Override
-        public void cancelEdit() {
-            super.cancelEdit();
-            setText(getItem());
-            setGraphic(null);
-        }
-
-        public void createValueField() {
-            textField = new TextField(getString());
-            textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
-            textField.focusedProperty().addListener((arg0, arg1, arg2) -> {
-                if (!arg2) {
-                    commitEdit(textField.getText());
-                }
-            });
-        }
-
-        @Override
-        public void updateItemIsEditing() {
-            if (textField != null) {
-                textField.setText(getString());
-            }
-        }
-
-        @Override
-        public String getStringIfItemNotNull() {
-            return getItem();
-        }
-
-        @Override
-        public void startEditIsNotEmptyLastActions() {
-            textField.selectAll();
-        }
-
-        @Override
-        public Node getGraphicNode() {
-            return textField;
-        }
+      });
     }
+
+    @Override
+    public Node getGraphicNode() {
+      return textField;
+    }
+
+    @Override
+    public void startEditIsNotEmptyLastActions() {
+      textField.selectAll();
+    }
+
+    @Override
+    public void updateItemIsEditing() {
+      if (textField != null) {
+        textField.setText(getString());
+      }
+    }
+
+    @Override
+    public String getStringIfItemNotNull() {
+      return getItem();
+    }
+  }
 
 
 }

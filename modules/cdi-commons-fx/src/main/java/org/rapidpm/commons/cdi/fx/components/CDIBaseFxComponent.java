@@ -26,5 +26,5 @@ import org.rapidpm.commons.cdi.CDINotMapped;
 @CDINotMapped
 public interface CDIBaseFxComponent<T> {
 
-    public abstract Class<T> getPaneClass();
+  public abstract Class<T> getPaneClass();
 }

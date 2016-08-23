@@ -16,14 +16,14 @@
 
 package junit.org.rapidpm.commons.cdi.se;
 
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
+
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 
 /**
  * CDIContainerSingleton Tester.
@@ -34,82 +34,80 @@ import org.rapidpm.commons.cdi.se.CDIContainerSingleton;
  */
 public class CDIContainerSingletonTest {
 
-    @Before
-    public void before() throws Exception {
+  @Before
+  public void before() throws Exception {
+  }
+
+  @After
+  public void after() throws Exception {
+  }
+
+  /**
+   * Method: getInstance()
+   */
+  @Test
+  public void testGetInstance() throws Exception {
+    final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
+    Assert.assertNotNull(instance);
+  }
+
+  /**
+   * Method: getManagedInstance(final Class<T> clazz)
+   */
+  @Test
+  public void testGetManagedInstance() throws Exception {
+    final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
+    Assert.assertNotNull(instance);
+    final TestClassDemoA classDemoA = instance.getManagedInstance(TestClassDemoA.class);
+    Assert.assertNotNull(classDemoA);
+
+  }
+
+  /**
+   * Method: getInstanceReference(final Class<T> clazz)
+   */
+  @Test
+  public void testGetInstanceReference() throws Exception {
+    final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
+    Assert.assertNotNull(instance);
+    final Instance<TestClassDemoA> ref = instance.getInstanceReference(TestClassDemoA.class);
+    Assert.assertNotNull(ref);
+    final boolean unsatisfied = ref.isUnsatisfied();
+    //Assert.assertFalse(unsatisfied);
+    final TestClassDemoA s = ref.get();
+    Assert.assertNotNull(s);
+    Assert.assertNotNull(s.testClassDemoB);
+
+    System.out.println("s = " + s);
+
+  }
+
+  public static class TestClassDemoA {
+    @Inject TestClassDemoB testClassDemoB;
+    private String str = "A - " + System.nanoTime();
+
+    @Override
+    public String toString() {
+      final StringBuilder sb = new StringBuilder("TestClassDemoA{");
+      sb.append("str='").append(str).append('\'');
+      sb.append(", testClassDemoB=").append(testClassDemoB);
+      sb.append('}');
+      return sb.toString();
     }
 
-    @After
-    public void after() throws Exception {
+  }
+
+  public static class TestClassDemoB {
+    private String str = "B - " + System.nanoTime();
+
+    @Override
+    public String toString() {
+      final StringBuilder sb = new StringBuilder("TestClassDemoB{");
+      sb.append("str='").append(str).append('\'');
+      sb.append('}');
+      return sb.toString();
     }
-
-    public static class TestClassDemoA {
-        private String str = "A - " + System.nanoTime();
-
-        @Inject TestClassDemoB testClassDemoB;
-
-        @Override
-        public String toString() {
-            final StringBuilder sb = new StringBuilder("TestClassDemoA{");
-            sb.append("str='").append(str).append('\'');
-            sb.append(", testClassDemoB=").append(testClassDemoB);
-            sb.append('}');
-            return sb.toString();
-        }
-
-    }
-
-
-    public static class TestClassDemoB {
-        private String str = "B - " + System.nanoTime();
-
-        @Override
-        public String toString() {
-            final StringBuilder sb = new StringBuilder("TestClassDemoB{");
-            sb.append("str='").append(str).append('\'');
-            sb.append('}');
-            return sb.toString();
-        }
-    }
-
-    /**
-     * Method: getInstance()
-     */
-    @Test
-    public void testGetInstance() throws Exception {
-        final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
-        Assert.assertNotNull(instance);
-    }
-
-    /**
-     * Method: getManagedInstance(final Class<T> clazz)
-     */
-    @Test
-    public void testGetManagedInstance() throws Exception {
-        final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
-        Assert.assertNotNull(instance);
-        final TestClassDemoA classDemoA = instance.getManagedInstance(TestClassDemoA.class);
-        Assert.assertNotNull(classDemoA);
-
-    }
-
-    /**
-     * Method: getInstanceReference(final Class<T> clazz)
-     */
-    @Test
-    public void testGetInstanceReference() throws Exception {
-        final CDIContainerSingleton instance = CDIContainerSingleton.getInstance();
-        Assert.assertNotNull(instance);
-        final Instance<TestClassDemoA> ref = instance.getInstanceReference(TestClassDemoA.class);
-        Assert.assertNotNull(ref);
-        final boolean unsatisfied = ref.isUnsatisfied();
-        //Assert.assertFalse(unsatisfied);
-        final TestClassDemoA s = ref.get();
-        Assert.assertNotNull(s);
-        Assert.assertNotNull(s.testClassDemoB);
-
-        System.out.println("s = " + s);
-
-    }
+  }
 
 
 } 

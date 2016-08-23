@@ -28,8 +28,8 @@ import javax.enterprise.util.AnnotationLiteral;
 @CDINotMapped
 public interface ContextResolver {
 
-    @CheckMockedContext
-    public AnnotationLiteral resolveContext(final Class<?> targetClass);
+  @CheckMockedContext
+  public AnnotationLiteral resolveContext(final Class<?> targetClass);
 
 
 }

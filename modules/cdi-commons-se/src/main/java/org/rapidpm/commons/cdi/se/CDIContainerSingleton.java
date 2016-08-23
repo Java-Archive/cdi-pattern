@@ -16,15 +16,15 @@
 
 package org.rapidpm.commons.cdi.se;
 
-import javax.enterprise.event.Event;
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.util.AnnotationLiteral;
-
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.rapidpm.commons.cdi.ManagedInstanceCreator;
 import org.rapidpm.commons.cdi.logger.Logger;
+
+import javax.enterprise.event.Event;
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.util.AnnotationLiteral;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,68 +36,67 @@ import org.rapidpm.commons.cdi.logger.Logger;
  */
 public class CDIContainerSingleton {
 
-    private final static CDIContainerSingleton ourInstance = new CDIContainerSingleton();
-    private final WeldContainer weldContainer;
-    private final Logger logger;
-    private final ManagedInstanceCreator managedInstanceCreator;
+  private  static final CDIContainerSingleton OUR_INSTANCE = new CDIContainerSingleton();
+  private final WeldContainer weldContainer;
+  private final Logger logger;
+  private final ManagedInstanceCreator managedInstanceCreator;
 
-    public static CDIContainerSingleton getInstance() {
-        return ourInstance;
+  private CDIContainerSingleton() {
+    weldContainer = new Weld().initialize();
+    logger = weldContainer.instance().select(Logger.class).get();  //bootstrapping but with Weld itself ;-)
+    managedInstanceCreator = weldContainer.instance().select(ManagedInstanceCreator.class).get();
+  }
+
+  public static CDIContainerSingleton getInstance() {
+    return OUR_INSTANCE;
+  }
+
+  public <T> T activateCDI(T t) {
+    return managedInstanceCreator.activateCDI(t);
+  }
+
+
+  public <T> T getManagedInstance(final Class<T> clazz) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("managed instance " + clazz);
     }
+    final Instance<T> ref = getInstanceReference(clazz);
+    return ref.get();
+  }
 
-    private CDIContainerSingleton() {
-        weldContainer = new Weld().initialize();
-        logger = weldContainer.instance().select(Logger.class).get();  //bootstrapping but with Weld itself ;-)
-        managedInstanceCreator = weldContainer.instance().select(ManagedInstanceCreator.class).get();
+  public <T> Instance<T> getInstanceReference(final Class<T> clazz) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("InstanceReference - class " + clazz);
     }
+    return weldContainer.instance().select(clazz);
+  }
 
-
-    public <T> T activateCDI(T t) {
-        return managedInstanceCreator.activateCDI(t);
+  public <T> T getManagedInstance(final AnnotationLiteral literal, final Class<T> clazz) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("managed instance " + clazz);
+      logger.debug("AnnotationLiteral - literal " + literal);
     }
+    final Instance<T> ref = getInstanceReference(literal, clazz);
+    return ref.get();
+  }
 
-
-    public <T> T getManagedInstance(final Class<T> clazz) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("managed instance " + clazz);
-        }
-        final Instance<T> ref = getInstanceReference(clazz);
-        return ref.get();
+  public <T> Instance<T> getInstanceReference(final AnnotationLiteral literal, final Class<T> clazz) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("InstanceReference - class " + clazz);
+      logger.debug("AnnotationLiteral - literal " + literal);
     }
+    return weldContainer.instance().select(clazz, literal);
+  }
 
-    public <T> Instance<T> getInstanceReference(final Class<T> clazz) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("InstanceReference - class " + clazz);
-        }
-        return weldContainer.instance().select(clazz);
-    }
+  public void fireEvent(final Object o) {
+    weldContainer.event().fire(o);
+  }
 
-    public <T> T getManagedInstance(final AnnotationLiteral literal, final Class<T> clazz) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("managed instance " + clazz);
-            logger.debug("AnnotationLiteral - literal " + literal);
-        }
-        final Instance<T> ref = getInstanceReference(literal, clazz);
-        return ref.get();
-    }
+  public Event<Object> event() {
+    return weldContainer.event();
+  }
 
-    public <T> Instance<T> getInstanceReference(final AnnotationLiteral literal, final Class<T> clazz) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("InstanceReference - class " + clazz);
-            logger.debug("AnnotationLiteral - literal " + literal);
-        }
-        return weldContainer.instance().select(clazz, literal);
-    }
-
-    public void fireEvent(final Object o) {
-        weldContainer.event().fire(o);
-    }
-
-    public Event<Object> event() {
-        return weldContainer.event();
-    }
-
-    public BeanManager getBeanManager() {
-        return weldContainer.getBeanManager();
-    }
+  public BeanManager getBeanManager() {
+    return weldContainer.getBeanManager();
+  }
 }

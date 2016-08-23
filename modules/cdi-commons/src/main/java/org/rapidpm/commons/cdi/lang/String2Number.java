@@ -16,10 +16,10 @@
 
 package org.rapidpm.commons.cdi.lang;
 
-import javax.inject.Inject;
-
 import org.rapidpm.commons.cdi.logger.CDILogger;
 import org.rapidpm.commons.cdi.logger.Logger;
+
+import javax.inject.Inject;
 
 /**
  * User: Sven Ruppert
@@ -28,154 +28,152 @@ import org.rapidpm.commons.cdi.logger.Logger;
  */
 public class String2Number {
 
-    private @Inject @CDILogger Logger logger;
+   @Inject @CDILogger private Logger logger;
 
-    public boolean isDouble(final String text) {
-        if (text == null) {
-            return false;
-        } else {
-            try {
-                final Double aDouble = toDouble(text);
-                return true;
-            } catch (NumberFormatException e) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("not a Double - " + e);
-                }
-            }
-            return false;
-        }
-    }
-
-    public boolean isLong(final String text) {
-        if (text == null) {
-            return false;
-        } else {
-            try {
-                final Long along = toLong(text);
-                return true;
-            } catch (NumberFormatException e) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("not a Long - " + e);
-                }
-            }
-            return false;
-        }
-    }
-
-    public boolean isLongRndDEFAULT(final String text) {
-        if (text == null) {
-            return false;
-        } else {
-            try {
-                final Long along = toLongRndDEFAULT(text);
-                return true;
-            } catch (NumberFormatException e) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("not a isLongRndDEFAULT - " + e);
-                }
-            }
-            return false;
-        }
-    }
-
-    public boolean isLongRndUP(final String text) {
-        if (text == null) {
-            return false;
-        } else {
-            try {
-                final Long along = toLongRndUP(text);
-                return true;
-            } catch (NumberFormatException e) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("not a isLongRndUP - " + e);
-                }
-            }
-            return false;
-        }
-    }
-
-    public boolean isLongRndDOWN(final String text) {
-        if (text == null) {
-            return false;
-        } else {
-            try {
-                final Long along = toLongRndDOWN(text);
-                return true;
-            } catch (NumberFormatException e) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("not a isLongRndDOWN - " + e);
-                }
-            }
-            return false;
-        }
-    }
-
-
-    public Double toDouble(String text) {
-        if (text.contains(",") && text.contains(".")) {
-            if (text.indexOf(",") < text.indexOf(".")) {
-                //1,020.78
-                return Double.valueOf(text.replace(",", ""));
-            } else {
-                //1.234,56
-                return Double.valueOf(text.replace(".", "").replace(",", "."));
-            }
-        } else if (text.contains(",")) {
-            return Double.valueOf(text.replace(",", "."));
-        } else {
-            return Double.valueOf(text);
-        }
-    }
-
-    public Long toLong(String text) {
-        if (text.contains(",") && text.contains(".")) {
-            if (text.indexOf(",") < text.indexOf(".")) {
-                return Double.valueOf(text.replace(".", "")).longValue();
-            } else {
-                return Double.valueOf(text.replace(".", "").replace(",", ".")).longValue();
-            }
-        } else if (text.contains(",")) {
-            return Double.valueOf(text.replace(",", ".")).longValue();
-        } else {
-            return Double.valueOf(text).longValue();
-        }
-    }
-
-
-    public Long toLongRndDEFAULT(String text) {
+  public boolean isDouble(final String text) {
+    if (text == null) {
+      return false;
+    } else {
+      try {
         final Double aDouble = toDouble(text);
-        final long round = Math.round(aDouble);
-        return round;
+        return true;
+      } catch (NumberFormatException e) {
+        if (logger.isDebugEnabled()) {
+          logger.debug("not a Double - " + e);
+        }
+      }
+      return false;
+    }
+  }
+
+  public Double toDouble(String text) {
+    if (text.contains(",") && text.contains(".")) {
+      if (text.indexOf(",") < text.indexOf(".")) {
+        //1,020.78
+        return Double.valueOf(text.replace(",", ""));
+      } else {
+        //1.234,56
+        return Double.valueOf(text.replace(".", "").replace(",", "."));
+      }
+    } else if (text.contains(",")) {
+      return Double.valueOf(text.replace(",", "."));
+    } else {
+      return Double.valueOf(text);
+    }
+  }
+
+  public boolean isLong(final String text) {
+    if (text == null) {
+      return false;
+    } else {
+      try {
+        final Long along = toLong(text);
+        return true;
+      } catch (NumberFormatException e) {
+        if (logger.isDebugEnabled()) {
+          logger.debug("not a Long - " + e);
+        }
+      }
+      return false;
+    }
+  }
+
+  public Long toLong(String text) {
+    if (text.contains(",") && text.contains(".")) {
+      if (text.indexOf(",") < text.indexOf(".")) {
+        return Double.valueOf(text.replace(".", "")).longValue();
+      } else {
+        return Double.valueOf(text.replace(".", "").replace(",", ".")).longValue();
+      }
+    } else if (text.contains(",")) {
+      return Double.valueOf(text.replace(",", ".")).longValue();
+    } else {
+      return Double.valueOf(text).longValue();
+    }
+  }
+
+  public boolean isLongRndDEFAULT(final String text) {
+    if (text == null) {
+      return false;
+    } else {
+      try {
+        final Long along = toLongRndDEFAULT(text);
+        return true;
+      } catch (NumberFormatException e) {
+        if (logger.isDebugEnabled()) {
+          logger.debug("not a isLongRndDEFAULT - " + e);
+        }
+      }
+      return false;
+    }
+  }
+
+  public Long toLongRndDEFAULT(String text) {
+    final Double aDouble = toDouble(text);
+    final long round = Math.round(aDouble);
+    return round;
+  }
+
+  public boolean isLongRndUP(final String text) {
+    if (text == null) {
+      return false;
+    } else {
+      try {
+        final Long along = toLongRndUP(text);
+        return true;
+      } catch (NumberFormatException e) {
+        if (logger.isDebugEnabled()) {
+          logger.debug("not a isLongRndUP - " + e);
+        }
+      }
+      return false;
+    }
+  }
+
+  public Long toLongRndUP(String text) {
+    final Double aDouble = toDouble(text);
+    final long round = Math.round(Math.nextUp(aDouble + 0.5));
+    return round;
+  }
+
+  public boolean isLongRndDOWN(final String text) {
+    if (text == null) {
+      return false;
+    } else {
+      try {
+        final Long along = toLongRndDOWN(text);
+        return true;
+      } catch (NumberFormatException e) {
+        if (logger.isDebugEnabled()) {
+          logger.debug("not a isLongRndDOWN - " + e);
+        }
+      }
+      return false;
+    }
+  }
+
+  public Long toLongRndDOWN(String text) {
+    final Double aDouble = toDouble(text);
+    if (logger.isDebugEnabled()) {
+      logger.debug("toLongRndDOWN -> toDouble double " + aDouble);
+    }
+    final double floor = Math.floor(aDouble);
+    if (logger.isDebugEnabled()) {
+      logger.debug("toLongRndDOWN -> Math.floor(aDouble) " + floor);
+    }
+    final double ceil = Math.ceil(aDouble);
+    if (logger.isDebugEnabled()) {
+      logger.debug("toLongRndDOWN -> Math.ceil(aDouble) " + ceil);
+    }
+    final double diff = floor - ceil;
+    if (logger.isDebugEnabled()) {
+      logger.debug("toLongRndDOWN -> diff = floor - ceil " + diff);
     }
 
-    public Long toLongRndUP(String text) {
-        final Double aDouble = toDouble(text);
-        final long round = Math.round(Math.nextUp(aDouble + 0.5));
-        return round;
+    if (diff <= 0 && aDouble >= 0.0) {
+      return Double.valueOf(floor).longValue();
+    } else {
+      return Double.valueOf(ceil).longValue();
     }
-
-    public Long toLongRndDOWN(String text) {
-        final Double aDouble = toDouble(text);
-        if (logger.isDebugEnabled()) {
-            logger.debug("toLongRndDOWN -> toDouble double " + aDouble);
-        }
-        final double floor = Math.floor(aDouble);
-        if (logger.isDebugEnabled()) {
-            logger.debug("toLongRndDOWN -> Math.floor(aDouble) " + floor);
-        }
-        final double ceil = Math.ceil(aDouble);
-        if (logger.isDebugEnabled()) {
-            logger.debug("toLongRndDOWN -> Math.ceil(aDouble) " + ceil);
-        }
-        final double diff = floor - ceil;
-        if (logger.isDebugEnabled()) {
-            logger.debug("toLongRndDOWN -> diff = floor - ceil " + diff);
-        }
-
-        if (diff <= 0 && aDouble >= 0.0) {
-            return Double.valueOf(floor).longValue();
-        } else {
-            return Double.valueOf(ceil).longValue();
-        }
-    }
+  }
 }
